@@ -5,6 +5,12 @@ namespace MemberToolLibrary
 {
     public class ToolLibrarySystem : Interfaces.iToolLibrarySystem
     {
+
+        public ToolLibrarySystem(ToolCollection tools, MemberCollection members)
+        {
+
+        }
+
         public void add(Tool aTool)
         {
             throw new NotImplementedException();

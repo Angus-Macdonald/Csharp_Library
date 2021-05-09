@@ -14,8 +14,17 @@ namespace MemberToolLibrary
             do
             {
                 key = Console.ReadKey(true);
-                Console.Write("*");
-                code += key.KeyChar;
+                if (key.Key == ConsoleKey.Backspace)
+                {
+                    Console.Write("\r" + new string(' ', Console.WindowWidth) + "\r");
+                    code = "";
+                    Console.Write("       Password: ");
+                }
+                if (key.Key != ConsoleKey.Enter)
+                {
+                    Console.Write("*");
+                    code += key.KeyChar;
+                }
             } while (key.Key != ConsoleKey.Enter);
             return code;
         }
@@ -25,9 +34,8 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine("");
-            string welcome = "   Welcome to the Library Tool Rental System  ";
             string mainmenu = "################ MAIN MENU ####################";
-            Console.WriteLine(welcome);
+            Console.WriteLine(PV.header);
             Console.WriteLine("");
             Console.WriteLine(mainmenu);
             string options = @"
@@ -36,7 +44,7 @@ namespace MemberToolLibrary
              0. Exit";
             Console.WriteLine(options);
             Console.WriteLine("");
-            Console.WriteLine("###############################################");
+            Console.WriteLine(PV.spacer);
             Console.WriteLine("Press 1 or 2 to log in");
             Console.WriteLine("Press 0 to exit the program");
             char theKey = Console.ReadKey(true).KeyChar;
@@ -46,12 +54,12 @@ namespace MemberToolLibrary
             }
             if (theKey == '2')
             {
-                Console.WriteLine("You are logging in as a Member");
                 MemberLogin();
             }
             if (theKey == '0')
             {
-                Console.WriteLine("You are logging off...");
+                Console.WriteLine("Shutting down ...");
+                Thread.Sleep(2000);
                 Environment.Exit(0);
             }
         }
@@ -61,7 +69,7 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine("");
-            Console.WriteLine("          Library Tool Rental System  ");
+            Console.WriteLine(PV.header);
             Console.WriteLine("");
             Console.WriteLine("################ Staff Login #####################");
             Console.WriteLine("");
@@ -71,10 +79,29 @@ namespace MemberToolLibrary
             Console.Write("       Password: ");
             string pass = HideCharacter();
             Console.WriteLine("");
-            Console.WriteLine(pass);
-            Console.WriteLine("");
-            Console.Write("Logging in ...");
-            StaffMenu();
+            
+            if (input == PV.Staff() && pass == PV.Pass())
+            {
+                Console.Write("Logging in ...");
+                Thread.Sleep(2000);
+                StaffMenu();
+            }
+
+            else
+            {
+                Console.WriteLine("You have entered an incorrect username or password.");
+                Console.WriteLine("");
+                Console.WriteLine("Press Enter to try again, else press any key to exit.");
+                ConsoleKey i = Console.ReadKey().Key;
+                if(i == ConsoleKey.Enter)
+                {
+                    StaffLogin();
+                }
+                else if(i != ConsoleKey.Enter)
+                {
+                    WelcomeMenu();
+                }
+            }  
         }
 
         public static void MemberLogin()
@@ -82,11 +109,10 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine("");
-            Console.WriteLine("          Library Tool Rental System  ");
+            Console.WriteLine(PV.header);
             Console.WriteLine("");
             Console.WriteLine("################ Member Login ####################");
             Console.WriteLine("");
-
             Console.Write("       First Name: ");
             string first = Console.ReadLine();
             Console.WriteLine("");
@@ -95,9 +121,10 @@ namespace MemberToolLibrary
             Console.WriteLine("");
             Console.Write("       Password: ");
             string pass = HideCharacter();
+
             Console.WriteLine("");
-            Console.WriteLine(pass);
-            Console.WriteLine("");
+
+
             Console.Write("Logging in ...");
             MemberMenu();
         }
@@ -107,22 +134,13 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 30);
             Console.WriteLine("");
-            string welcome = "   Welcome to the Library Tool Rental System  ";
             string menu = "################ Staff Menu ####################";
-            Console.WriteLine(welcome);
+            Console.WriteLine(PV.header);
             Console.WriteLine("");
             Console.WriteLine(menu);
-            string options = @"
-1. Add a new tool
-2. Add new pieces of an existing tool
-3. Remove some pieces of a tool
-4. Register a new member
-5. Remove a member
-6. Find the contact number of a member
-0. Return to Main Menu";
-            Console.WriteLine(options);
+            Console.WriteLine(PV.staffOptions);
             Console.WriteLine("");
-            Console.WriteLine("###############################################");
+            Console.WriteLine();
             Console.WriteLine("");
             Console.WriteLine("Please make a selection");
             Console.Write("1 - 6, or 0 to return to Main Menu: ");
@@ -138,21 +156,13 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine("");
-            string welcome = "   Welcome to the Library Tool Rental System  ";
             string menu = "################ Member Menu ###################";
-            Console.WriteLine(welcome);
+            Console.WriteLine(PV.header);
             Console.WriteLine("");
             Console.WriteLine(menu);
-            string options = @"
-1. Display all the tools of a tool type
-2. Borrow a tool
-3. Return a tool
-4. List all the tools that I am renting
-5. Display the top three (3) most frequently rented tools
-0. Return to Main Menu";
-            Console.WriteLine(options);
+            Console.WriteLine(PV.memberOptions);
             Console.WriteLine("");
-            Console.WriteLine("###############################################");
+            Console.WriteLine(PV.spacer);
             Console.WriteLine("");
             Console.WriteLine("Please make a selection");
             Console.Write("1 - 5, or 0 to return to Main Menu: ");

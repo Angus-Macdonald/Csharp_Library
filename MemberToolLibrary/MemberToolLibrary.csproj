@@ -43,6 +43,11 @@
     <Compile Include="Tool.cs" />
     <Compile Include="ToolCollection.cs" />
     <Compile Include="ToolLibrarySystem.cs" />
+    <Compile Include="StaffOptions\Options.cs" />
+    <Compile Include="PV.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="StaffOptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,21 +5,16 @@ namespace MemberToolLibrary
 {
     public class ToolCollection : iToolCollection
     {
-        public int Number => throw new NotImplementedException();
+        public int num = 0;
+        public Tool[] tools = new Tool[0];
 
-        public Tool[] gardeningTool = new Tool[5];
-        public Tool[] flooringTool = new Tool[6];
-        public Tool[] fencingTool = new Tool[5];
-        public Tool[] measuringTool = new Tool[6];
-        public Tool[] cleaningTool = new Tool[6];
-        public Tool[] paintingTool = new Tool[6];
-        public Tool[] electronicTool = new Tool[5];
-        public Tool[] electricityTool = new Tool[5];
-        public Tool[] automotiveTool = new Tool[6];
+        public int Number => throw new NotImplementedException();
 
         public void add(Tool aTool)
         {
-            throw new NotImplementedException();
+            num += 1;
+            tools = new Tool[num];
+            tools[num] = aTool;
         }
 
         public void delete(Tool aTool)

@@ -1,34 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
 using Interfaces;
 
 namespace MemberToolLibrary
 {
     public class Tool : iTool
     {
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Quantity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int AvailableQuantity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int NoBorrowings { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private string name;
+        private int quantity;
+        private int availablequantity;
+        private int noborrowings;
 
-        public MemberCollection GetBorrowers => throw new NotImplementedException();
+        public string Name { get => name; set => name = value; }
+        public int Quantity { get => quantity; set => quantity = value; }
+        public int AvailableQuantity { get => availablequantity; set => availablequantity = value; }
+        public int NoBorrowings { get => noborrowings; set => noborrowings = value; }
 
+        public MemberCollection MembersBorrowing = new MemberCollection();
 
-        public Tool(string name, int quantity, int available, int noborrowings)
+        public Tool(string n, int quant, int available, int noborrow)
         {
-            this.Name = name;
-            this.Quantity = quantity;
-            this.AvailableQuantity = available;
-            this.NoBorrowings = noborrowings;
+            Name = n;
+            Quantity = quant;
+            AvailableQuantity = available;
+            NoBorrowings = noborrow;
+
         }
+
+        public MemberCollection GetBorrowers => MembersBorrowing;
 
         public void addBorrower(Member aMember)
         {
-            throw new NotImplementedException();
+            MembersBorrowing.add(aMember);
         }
 
         public void deleteBorrower(Member aMember)
         {
-            throw new NotImplementedException();
+            MembersBorrowing.add(aMember);
         }
     }
 }

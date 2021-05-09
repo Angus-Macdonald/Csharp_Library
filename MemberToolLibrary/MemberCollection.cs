@@ -7,14 +7,18 @@ namespace MemberToolLibrary
 {
     public class MemberCollection : Interfaces.iMemberCollection
     {
+        public List<Member> ListOfMembers = new List<Member> { };
 
-        public int Number => throw new NotImplementedException();
+        public int Number => ListOfMembers.Count;
 
-        public void add(Member aMember) => throw new NotImplementedException();
+        public void add(Member aMember)
+        {
+            ListOfMembers.Add(aMember);
+        }
 
         public void delete(Member aMember)
         {
-            throw new NotImplementedException();
+            ListOfMembers.Remove(aMember);
         }
 
         public bool search(Member aMember)

@@ -8,31 +8,58 @@ namespace MemberToolLibrary
 {
     public class Member : iMember
     {
+        private string firstName;
+        private string lastName;
+        private string mobile;
+        private string pin;
+        private string[] tools = new string[3];
+        public int numBorrowed;
 
-        public string FirstName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string LastName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string ContactNumber { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string PIN { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string FirstName { get => firstName; set => firstName = value; }
+        public string LastName { get => lastName; set => lastName = value; }
+        public string ContactNumber { get => mobile; set => mobile = value; }
+        public string PIN { get => pin; set => pin = value; }
 
-        public string[] Tools => throw new NotImplementedException();
+        public string[] Tools => tools;
 
-        public Member(string first, string last, string number, string pin)
+        public Member(string first, string last, string mob, string pin)
         {
-            this.FirstName = first;
-            this.LastName = last;
-            this.ContactNumber = number;
-            this.PIN = pin;
+            FirstName = first;
+            LastName = last;
+            ContactNumber = mob;
+            PIN = pin;
         }
-       
 
         public void addTool(Tool aTool)
         {
-            throw new NotImplementedException();
+            if (numBorrowed == 3)
+            {
+
+                Console.WriteLine("You have reached your borrowing capacity.");
+                
+            }
+            else
+            {
+                numBorrowed += 1;
+                tools[numBorrowed -1] = aTool.Name;
+            }
         }
 
         public void deleteTool(Tool aTool)
         {
-            throw new NotImplementedException();
+            for(int i = 0; i < tools.Length; i++)
+            {
+                if(tools[i] == aTool.Name)
+                {
+                    tools[i] = null;
+                    numBorrowed -= 1;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("You have not borrowed that tool.");
+                }
+            }
         }
     }
 }
