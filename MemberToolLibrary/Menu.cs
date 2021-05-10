@@ -165,12 +165,18 @@ namespace MemberToolLibrary
             Console.WriteLine(PV.spacer);
             Console.WriteLine("");
             Console.WriteLine("Please make a selection");
-            Console.Write("1 - 5, or 0 to return to Main Menu: ");
-            char input = Console.ReadKey().KeyChar;
+            Console.WriteLine("1 - 5, or 0 to return to log out: ");
+            char input = Console.ReadKey(true).KeyChar;
 
             if (input == '0')
             {
+                Console.WriteLine("Logging off ...");
+                Thread.Sleep(2000);
                 WelcomeMenu();
+            }
+            if(input == '1')
+            {
+                MemberOptions.Options.DisplayTools();
             }
         }
     }

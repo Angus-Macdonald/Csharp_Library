@@ -1,34 +1,52 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Interfaces;
+
 
 namespace MemberToolLibrary
 {
     public class ToolLibrarySystem : Interfaces.iToolLibrarySystem
     {
+        private ToolCollection tools = new ToolCollection();
+        private MemberCollection members = new MemberCollection();
 
-        public ToolLibrarySystem(ToolCollection tools, MemberCollection members)
+        public ToolCollection Tools { get => tools; set => tools = value;}
+        public MemberCollection Members { get => members; set => members = value; }
+
+        public ToolLibrarySystem(ToolCollection tool, MemberCollection member)
         {
-
+            this.Tools = tool;
+            this.Members = member;
         }
 
         public void add(Tool aTool)
         {
-            throw new NotImplementedException();
+            tools.add(aTool);
         }
 
         public void add(Tool aTool, int quantity)
         {
-            throw new NotImplementedException();
+            if (tools.search(aTool))
+            {
+                int index = Array.FindIndex(tools.tool, x => x.Name == aTool.Name);
+                tools.tool[index].Quantity += quantity;
+            }
+            else
+            {
+                Console.WriteLine("This tool does not already exist, please use single parameter.");
+            }
+         
         }
 
         public void add(Member aMember)
         {
-            throw new NotImplementedException();
+            members.add(aMember);
         }
 
         public void borrowTool(Member aMember, Tool aTool)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void delete(Tool aTool)

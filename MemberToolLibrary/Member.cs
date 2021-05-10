@@ -13,7 +13,8 @@ namespace MemberToolLibrary
         private string mobile;
         private string pin;
         private string[] tools = new string[3];
-        public int numBorrowed;
+
+        public int numBorrowed = 0;
 
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
@@ -30,36 +31,49 @@ namespace MemberToolLibrary
             PIN = pin;
         }
 
+
         public void addTool(Tool aTool)
         {
             if (numBorrowed == 3)
             {
-
-                Console.WriteLine("You have reached your borrowing capacity.");
-                
+                Console.WriteLine("You have reached your borrowing capacity."); 
             }
             else
             {
+                tools[numBorrowed] = aTool.Name;
                 numBorrowed += 1;
-                tools[numBorrowed -1] = aTool.Name;
             }
+        }
+
+        internal int CompareTo(Member item)
+        {
+            throw new NotImplementedException();
         }
 
         public void deleteTool(Tool aTool)
         {
-            for(int i = 0; i < tools.Length; i++)
+            if(numBorrowed == 0)
             {
-                if(tools[i] == aTool.Name)
+                Console.WriteLine("You have not borrowed any tools.");
+                return;
+            }
+
+            for (int i = 0; i < tools.Length; i++)
+            {
+                if (tools[i] == aTool.Name)
                 {
                     tools[i] = null;
                     numBorrowed -= 1;
+                    Array.Sort(tools);
                     break;
                 }
-                else
+
+                if(i == tools.Length - 1)
                 {
-                    Console.WriteLine("You have not borrowed that tool.");
+                   Console.WriteLine("You have not borrowed that tool.");
                 }
             }
+            
         }
     }
 }
