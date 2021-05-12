@@ -10,18 +10,12 @@ namespace MemberToolLibrary
         private int quantity;
         private int availablequantity;
         private int noborrowings;
-
-        private int index;
-        private int collectionindex;
-
-     
+        
         public string Name { get => name; set => name = value; }
         public int Quantity { get => quantity; set => quantity = value; }
         public int AvailableQuantity { get => availablequantity; set => availablequantity = value; }
         public int NoBorrowings { get => noborrowings; set => noborrowings = value; }
 
-        public int INDEX { get => index; set => index = value; }
-        public int COLLECTIONINDEX { get => collectionindex; set => collectionindex = value; }
         public MemberCollection MembersBorrowing = new MemberCollection();
 
         public Tool(string n, int quant, int available, int noborrow)
@@ -50,7 +44,15 @@ namespace MemberToolLibrary
 
         public void deleteBorrower(Member aMember)
         {
-            MembersBorrowing.delete(aMember);
+            if (MembersBorrowing.search(aMember))
+            {
+                MembersBorrowing.delete(aMember);
+                availablequantity += 1;
+            }
+            else
+            {
+                Console.WriteLine("This tool is not being borrowed by " + aMember.FirstName + " " + aMember.LastName);
+            }
         }
     }
 }

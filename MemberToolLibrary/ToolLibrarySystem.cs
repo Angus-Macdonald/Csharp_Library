@@ -6,7 +6,7 @@ using Interfaces;
 
 namespace MemberToolLibrary
 {
-    public class ToolLibrarySystem : Interfaces.iToolLibrarySystem
+    public class ToolLibrarySystem : iToolLibrarySystem
     {
         private ToolCollection tools = new ToolCollection();
         private MemberCollection members = new MemberCollection();
@@ -23,20 +23,15 @@ namespace MemberToolLibrary
         public void add(Tool aTool)
         {
             tools.add(aTool);
+
         }
 
         public void add(Tool aTool, int quantity)
         {
-            if (tools.search(aTool))
+            for(int q = 0; q < quantity; q++)
             {
-                int index = Array.FindIndex(tools.tool, x => x.Name == aTool.Name);
-                tools.tool[index].Quantity += quantity;
+                tools.add(aTool);
             }
-            else
-            {
-                Console.WriteLine("This tool does not already exist, please use single parameter.");
-            }
-         
         }
 
         public void add(Member aMember)
@@ -51,22 +46,33 @@ namespace MemberToolLibrary
 
         public void delete(Tool aTool)
         {
-            throw new NotImplementedException();
+            tools.delete(aTool);
         }
 
         public void delete(Tool aTool, int quantity)
         {
-            throw new NotImplementedException();
+            if (tools.search(aTool))
+            {
+                for (int q = 0; q < quantity; q++)
+                {
+                    tools.delete(aTool);
+                }
+            }
+
+            else
+            {
+                Console.WriteLine("This tool does not exist.");
+            }
         }
 
         public void delete(Member aMember)
         {
-            throw new NotImplementedException();
+            members.delete(aMember);
         }
 
         public void displayBorrowingTools(Member aMember)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void displayTools(string aToolType)

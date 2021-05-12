@@ -47,7 +47,7 @@
     <Compile Include="PV.cs" />
     <Compile Include="MemberOptions\Options.cs" />
     <Compile Include="Index.cs" />
-    <Compile Include="BST.cs" />
+    <Compile Include="Enum.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StaffOptions\" />

@@ -13,7 +13,6 @@ namespace MemberToolLibrary
         private string mobile;
         private string pin;
         private string[] tools = new string[3];
-
         public int numBorrowed = 0;
 
         public string FirstName { get => firstName; set => firstName = value; }
@@ -43,11 +42,6 @@ namespace MemberToolLibrary
                 tools[numBorrowed] = aTool.Name;
                 numBorrowed += 1;
             }
-        }
-
-        internal int CompareTo(Member item)
-        {
-            throw new NotImplementedException();
         }
 
         public void deleteTool(Tool aTool)
