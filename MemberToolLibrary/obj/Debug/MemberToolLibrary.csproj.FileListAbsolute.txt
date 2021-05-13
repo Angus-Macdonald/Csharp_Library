@@ -1,0 +1,6 @@
+C:\Users\OptiplexUser\Desktop\301\MemberToolLibrary\bin\Debug\MemberToolLibrary.exe
+C:\Users\OptiplexUser\Desktop\301\MemberToolLibrary\bin\Debug\MemberToolLibrary.pdb
+C:\Users\OptiplexUser\Desktop\301\MemberToolLibrary\obj\Debug\MemberToolLibrary.csprojAssemblyReference.cache
+C:\Users\OptiplexUser\Desktop\301\MemberToolLibrary\obj\Debug\MemberToolLibrary.csproj.CoreCompileInputs.cache
+C:\Users\OptiplexUser\Desktop\301\MemberToolLibrary\obj\Debug\MemberToolLibrary.exe
+C:\Users\OptiplexUser\Desktop\301\MemberToolLibrary\obj\Debug\MemberToolLibrary.pdb

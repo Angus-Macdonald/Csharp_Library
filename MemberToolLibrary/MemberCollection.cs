@@ -40,7 +40,7 @@ namespace MemberToolLibrary
     public class MemberCollection : iMemberCollection
     {
         private Node root;
-        private int number;
+        private int number = 0;
         public int Number => number;
         public List<Member> memberList = new List<Member>();
 
@@ -52,11 +52,6 @@ namespace MemberToolLibrary
         public bool IsEmpty()
         {
             return root == null;
-        }
-
-        public bool search(Member item)
-        {
-            return search(item, root);
         }
 
         public int Com(Member a, Member b)
@@ -92,6 +87,11 @@ namespace MemberToolLibrary
                     return 1;
                 }
             }
+        }
+
+        public bool search(Member item)
+        {
+            return search(item, root);
         }
 
         private bool search(Member item, Node r)
@@ -236,20 +236,76 @@ namespace MemberToolLibrary
             }
         }
 
-        public void InOrderTraverse()
+        public void addToolToMember(Member member, Tool aTool)
         {
-            Console.Write("InOrder: ");
-            InOrderTraverse(root);
-            Console.WriteLine();
+            if(root == null)
+            {
+                Console.WriteLine("No members exist");
+            }
+            else
+            {
+                addToolToMember(member, aTool, root);
+            }
         }
 
-        private void InOrderTraverse(Node root)
+        public void addToolToMember(Member member, Tool aTool, Node r)
         {
-            if (root != null)
+            if (r != null)
             {
-                InOrderTraverse(root.LChild);
-                Console.WriteLine(root.Item.LastName);
-                InOrderTraverse(root.RChild);
+                if (Com(member, r.Item) == 0)
+                {
+                    r.Item.addTool(aTool);
+                }
+
+                else
+                {
+                    if (Com(member, r.Item) < 0)
+                    {
+                        addToolToMember(member, aTool, r.LChild);
+                    }
+                    else
+                    {
+                        addToolToMember(member, aTool, r.RChild);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("This user could not be found");
+            }
+        }
+
+        public string[] returnTools(Member item)
+        {
+            return returnTools(item, root);
+        }
+
+       private string[] returnTools(Member item, Node r)
+        {
+            if (r != null)
+            {
+                if (Com(item, r.Item) == 0)
+                {
+                    return r.Item.Tools;
+                }
+
+                else
+                {
+                    if (Com(item, r.Item) < 0)
+                    {
+                        return returnTools(item, r.LChild);
+                    }
+                    else
+                    {
+                        return returnTools(item, r.RChild);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("This user does not exist");
+                string[] emptyString = { };
+                return emptyString;
             }
         }
 

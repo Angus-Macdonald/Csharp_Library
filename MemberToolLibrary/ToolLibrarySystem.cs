@@ -72,7 +72,16 @@ namespace MemberToolLibrary
 
         public void displayBorrowingTools(Member aMember)
         {
-            
+            string[] memberTools = members.returnTools(aMember);
+
+            for (int i = 0; i < memberTools.Length; i++)
+            {
+                if (memberTools[i] != null)
+                {
+                    Console.WriteLine(memberTools[i]);
+                }
+                else { }
+            }
         }
 
         public void displayTools(string aToolType)
@@ -87,7 +96,7 @@ namespace MemberToolLibrary
 
         public string[] listTools(Member aMember)
         {
-            throw new NotImplementedException();
+            return members.returnTools(aMember);
         }
 
         public void returnTool(Member aMember, Tool aTool)
