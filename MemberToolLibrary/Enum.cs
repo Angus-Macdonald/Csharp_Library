@@ -16,7 +16,7 @@ namespace MemberToolLibrary
             automotive = 9
         }
 
-        enum gardening
+        public enum gardening
         {
             LineTrimmers = 1,
             LawnMowers = 2,

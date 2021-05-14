@@ -41,7 +41,15 @@ namespace MemberToolLibrary
 
         public void borrowTool(Member aMember, Tool aTool)
         {
-            
+            if (members.search(aMember))
+            {
+                if (tools.search(aTool))
+                {
+                    members.addToolToMember(aMember, aTool);
+                    tools.addMemberToTool(aMember, aTool);
+                }
+            }
+        
         }
 
         public void delete(Tool aTool)
@@ -72,21 +80,22 @@ namespace MemberToolLibrary
 
         public void displayBorrowingTools(Member aMember)
         {
-            string[] memberTools = members.returnTools(aMember);
+            string[] memberTools = members.getMemberTools(aMember);
 
             for (int i = 0; i < memberTools.Length; i++)
             {
-                if (memberTools[i] != null)
+                if (memberTools[i] == null)
                 {
-                    Console.WriteLine(memberTools[i]);
+                    break;
+
                 }
-                else { }
+
+                Console.WriteLine(memberTools[i]);
             }
         }
 
         public void displayTools(string aToolType)
         {
-            throw new NotImplementedException();
         }
 
         public void displayTopTHree()
@@ -96,7 +105,7 @@ namespace MemberToolLibrary
 
         public string[] listTools(Member aMember)
         {
-            return members.returnTools(aMember);
+            return members.getMemberTools(aMember);
         }
 
         public void returnTool(Member aMember, Tool aTool)

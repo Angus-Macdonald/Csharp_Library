@@ -89,6 +89,45 @@ namespace MemberToolLibrary
             }
         }
 
+        public int memberLogin(Member item)
+        {
+            return memberLogin(item, root);
+        }
+
+        public int memberLogin(Member item, Node r)
+        {
+            if (r != null)
+            {
+                if (Com(item, r.Item) == 0)
+                {
+                    if(item.PIN == r.Item.PIN)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+
+                else
+                {
+                    if (Com(item, r.Item) < 0)
+                    {
+                        return memberLogin(item, r.LChild);
+                    }
+                    else
+                    {
+                        return memberLogin(item, r.RChild);
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         public bool search(Member item)
         {
             return search(item, root);
@@ -275,12 +314,12 @@ namespace MemberToolLibrary
             }
         }
 
-        public string[] returnTools(Member item)
+        public string[] getMemberTools(Member item)
         {
-            return returnTools(item, root);
+            return getMemberTools(item, root);
         }
 
-       private string[] returnTools(Member item, Node r)
+       private string[] getMemberTools(Member item, Node r)
         {
             if (r != null)
             {
@@ -293,18 +332,18 @@ namespace MemberToolLibrary
                 {
                     if (Com(item, r.Item) < 0)
                     {
-                        return returnTools(item, r.LChild);
+                        return getMemberTools(item, r.LChild);
                     }
                     else
                     {
-                        return returnTools(item, r.RChild);
+                        return getMemberTools(item, r.RChild);
                     }
                 }
             }
             else
             {
-                Console.WriteLine("This user does not exist");
-                string[] emptyString = { };
+                
+                string[] emptyString = {"This user does not exist."};
                 return emptyString;
             }
         }
