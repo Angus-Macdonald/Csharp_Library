@@ -34,14 +34,33 @@ namespace MemberToolLibrary
                 Array.Resize(ref tool, numTools + 1);
                 tool[numTools] = aTool;
                 numTools += 1;
+
             }
+        }
+
+        public int IndexOf(ToolCollection toolCollection, Tool aTool)
+        {
+            for (int i = 0; i < toolCollection.Number; i++)
+            {
+                if(toolCollection.toArray()[i].Name == aTool.Name)
+                {
+                    return i;
+                }
+                else
+                {
+                    continue;
+                }
+     
+            }
+
+            return -1;
         }
 
         public void delete(Tool aTool)
         {
             if (Array.Exists(tool, x => x.Name == aTool.Name))
             {
-                int index = Array.IndexOf(tool, aTool) + 1;
+                int index = Array.IndexOf(tool, aTool);
                 if (tool[index].AvailableQuantity == 0)
                 {
                     Console.WriteLine("The quantity of this tool has been fully booked.");
