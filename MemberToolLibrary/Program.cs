@@ -10,7 +10,6 @@ namespace MemberToolLibrary
         public static MemberCollection memberCollect = new MemberCollection();
         public static ToolLibrarySystem system = new ToolLibrarySystem(toolCollect, memberCollect);
         public static Index choices = new Index();
-
         public static string HideCharacter() //This needs updating/reference to stackoverflow
         {
             ConsoleKeyInfo key;
@@ -337,9 +336,11 @@ namespace MemberToolLibrary
                 }
                 else
                 {
-                    toolCollect.catType[choices.CAT - 1, choices.TYPE - 1] += newTool.Name + "~";
+                    toolCollect.catType[choices.CAT - 1, choices.TYPE - 1] += newTool.Name + '/';
+                    Console.WriteLine(toolCollect.catType[choices.CAT - 1, choices.TYPE - 1]);
                     system.add(newTool);
                     Console.WriteLine("Tool added successfully.");
+                    Console.ReadKey();
                 }
             }
             else
@@ -589,9 +590,61 @@ namespace MemberToolLibrary
             }
             if (input == '1')
             {
-                MemberOptions.Options.DisplayTools();
+                DisplayToolsOfType();
             }
         }
+
+
+        public static void DisplayToolsOfType()
+        {
+            Console.Clear();
+            Console.WriteLine("");
+            Console.WriteLine("Display Tools of a Type");
+            Console.WriteLine("");
+            Console.WriteLine(PV.categories);
+            Console.WriteLine("");
+            Console.WriteLine("Select a category between 1-9, or 0 to return to main menu.");
+            char cat = Console.ReadKey().KeyChar;
+            choices.CAT = Int32.Parse(cat.ToString());
+            Console.Clear();
+            Console.WriteLine("");
+            if (cat == '1') { 
+                Console.WriteLine("Gardening Tools");
+                Console.WriteLine();
+                Console.WriteLine(PV.gardeningTools);
+                Console.WriteLine("");
+                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
+                char type = Console.ReadKey().KeyChar;
+                choices.TYPE = Int32.Parse(type.ToString());
+                Console.Clear();
+                Console.WriteLine();
+                string[] toolNames = toolCollect.catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
+                ToolCollection toolTypes = new ToolCollection();
+                foreach(string t in toolNames)
+                {
+                    Tool memberTools = toolCollect.getTool(t);
+
+                    if (memberTools.Name != "null")
+                    {
+                        toolTypes.add(memberTools);
+                    }
+                    
+                }
+
+                foreach(Tool t in toolTypes.toArray())
+                {
+                    Console.WriteLine("Name: " + t.Name + " Quantity: " + t.Quantity + " Available: " + t.AvailableQuantity);
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("Press any key to return to main menu.");
+
+                Console.ReadKey();
+                MemberMenu();
+            }
+        }
+
+
         static void Main(string[] args)
         {
             WelcomeMenu();

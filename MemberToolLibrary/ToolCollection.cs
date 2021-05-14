@@ -16,19 +16,24 @@ namespace MemberToolLibrary
         {
             if (Array.Exists(tool, x => x.Name == aTool.Name))
             {
-                int index = Array.IndexOf(tool, aTool) + 1;
-                tool[index].Quantity += 1;
-                tool[index].AvailableQuantity += 1;
+                foreach (Tool t in tool)
+                {
+                    if (t.Name == aTool.Name)
+                    {
+                        t.Quantity += 1;
+                        t.AvailableQuantity += 1;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
             }
-
             else
             {
                 Array.Resize(ref tool, numTools + 1);
                 tool[numTools] = aTool;
-                tool[numTools].Quantity += 1;
-                tool[numTools].AvailableQuantity += 1;
                 numTools += 1;
-
             }
         }
 
@@ -78,6 +83,25 @@ namespace MemberToolLibrary
             {
                 return false;
             }
+        }
+
+        public Tool getTool(string toolName)
+        {
+            foreach (Tool heldTool in tool)
+            {
+                if (heldTool.Name == toolName)
+                {
+                    Tool returnTool = heldTool;
+                    return returnTool;
+                }
+                else
+                {
+                    continue;
+                }
+
+            }
+
+            return new Tool("null", 0, 0, 0);
         }
 
         public void addMemberToTool(Member aMember, Tool aTool)

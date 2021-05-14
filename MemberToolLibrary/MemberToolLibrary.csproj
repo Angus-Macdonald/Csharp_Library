@@ -43,14 +43,12 @@
     <Compile Include="Tool.cs" />
     <Compile Include="ToolCollection.cs" />
     <Compile Include="ToolLibrarySystem.cs" />
-    <Compile Include="StaffOptions\Options.cs" />
     <Compile Include="PV.cs" />
     <Compile Include="MemberOptions\Options.cs" />
     <Compile Include="Index.cs" />
     <Compile Include="Enum.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="StaffOptions\" />
     <Folder Include="MemberOptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
