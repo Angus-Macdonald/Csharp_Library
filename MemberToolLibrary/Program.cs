@@ -199,6 +199,11 @@ namespace MemberToolLibrary
                     choices.FUNCTION = Int32.Parse(input.ToString());
                     RemoveMember();
                 }
+                if (input == '6')
+                {
+                    choices.FUNCTION = Int32.Parse(input.ToString());
+                    findContact();
+                }
             }
         }
 
@@ -535,9 +540,11 @@ namespace MemberToolLibrary
             Member tempMember = new Member(first, last, "0000", "0000");
             if (memberCollect.search(tempMember))
             {
-                
-                Console.WriteLine("This member has been deleted from the system.");
-                Thread.Sleep(2000);
+                string contact = system.getContact(tempMember);
+                Console.WriteLine("The members contact number: " + contact);
+                Console.WriteLine();
+                Console.WriteLine("Press any key to exit to main menu.");
+                Console.ReadKey();
                 StaffMenu();
             }
             else
@@ -547,7 +554,7 @@ namespace MemberToolLibrary
                 ConsoleKey key = Console.ReadKey().Key;
                 if (key == ConsoleKey.Enter)
                 {
-                    RemoveMember();
+                    findContact();
                 }
                 if (key == ConsoleKey.D0)
                 {
@@ -555,7 +562,7 @@ namespace MemberToolLibrary
                 }
             }
         }
-    }
+    
 
         public static void MemberMenu()
         {

@@ -314,37 +314,36 @@ namespace MemberToolLibrary
             }
         }
 
-        public string[] getMemberTools(Member item)
+        public Member getMember(Member item)
         {
-            return getMemberTools(item, root);
+            return getMember(item, root);
         }
 
-       private string[] getMemberTools(Member item, Node r)
+       private Member getMember(Member item, Node r)
         {
-            if (r != null)
+            
+            if (search(item))
             {
                 if (Com(item, r.Item) == 0)
                 {
-                    return r.Item.Tools;
+                    return r.Item;
                 }
 
                 else
                 {
                     if (Com(item, r.Item) < 0)
                     {
-                        return getMemberTools(item, r.LChild);
+                        return getMember(item, r.LChild);
                     }
                     else
                     {
-                        return getMemberTools(item, r.RChild);
+                        return getMember(item, r.RChild);
                     }
                 }
             }
             else
             {
-                
-                string[] emptyString = {"This user does not exist."};
-                return emptyString;
+                throw new InvalidOperationException();
             }
         }
 

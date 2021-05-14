@@ -80,7 +80,7 @@ namespace MemberToolLibrary
 
         public void displayBorrowingTools(Member aMember)
         {
-            string[] memberTools = members.getMemberTools(aMember);
+            string[] memberTools = members.getMember(aMember).Tools;
 
             for (int i = 0; i < memberTools.Length; i++)
             {
@@ -98,6 +98,11 @@ namespace MemberToolLibrary
         {
         }
 
+        public string getContact(Member aMember)
+        {
+            return members.getMember(aMember).ContactNumber;
+        }
+
         public void displayTopTHree()
         {
             throw new NotImplementedException();
@@ -105,7 +110,7 @@ namespace MemberToolLibrary
 
         public string[] listTools(Member aMember)
         {
-            return members.getMemberTools(aMember);
+            return members.getMember(aMember).Tools;
         }
 
         public void returnTool(Member aMember, Tool aTool)
