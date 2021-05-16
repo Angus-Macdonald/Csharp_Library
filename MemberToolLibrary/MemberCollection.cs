@@ -173,8 +173,6 @@ namespace MemberToolLibrary
             }
         }
 
-        // pre: ptr != null
-        // post: item is inserted to the binary search tree rooted at ptr
         private void add(Member item, Node ptr)
         {
             if (Com(item, ptr.Item) == 0)
@@ -271,7 +269,7 @@ namespace MemberToolLibrary
             }
             else
             {
-                Console.WriteLine("This user does not exist.");
+                throw new InvalidOperationException("This user does not exist.");
             }
         }
 
@@ -279,7 +277,7 @@ namespace MemberToolLibrary
         {
             if(root == null)
             {
-                Console.WriteLine("No members exist");
+                throw new InvalidOperationException("No members exist");
             }
             else
             {
@@ -310,7 +308,46 @@ namespace MemberToolLibrary
             }
             else
             {
-                Console.WriteLine("This user could not be found");
+                throw new InvalidOperationException("This user does not exist.");
+            }
+        }
+
+        public void deleteToolToMember(Member member, Tool aTool)
+        {
+            if (root == null)
+            {
+                throw new InvalidOperationException("No users exist.");
+            }
+            else
+            {
+                deleteToolToMember(member, aTool, root);
+            }
+        }
+
+        public void deleteToolToMember(Member member, Tool aTool, Node r)
+        {
+            if (r != null)
+            {
+                if (Com(member, r.Item) == 0)
+                {
+                    r.Item.deleteTool(aTool);
+                }
+
+                else
+                {
+                    if (Com(member, r.Item) < 0)
+                    {
+                        deleteToolToMember(member, aTool, r.LChild);
+                    }
+                    else
+                    {
+                        deleteToolToMember(member, aTool, r.RChild);
+                    }
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("This user does not exist.");
             }
         }
 

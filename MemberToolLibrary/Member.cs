@@ -35,7 +35,7 @@ namespace MemberToolLibrary
         {
             if (numBorrowed == 3)
             {
-                Console.WriteLine("You have reached your borrowing capacity."); 
+                throw new InvalidOperationException("Users are limited to borrowing a maximum of three tools.");
             }
             else
             {
@@ -48,8 +48,7 @@ namespace MemberToolLibrary
         {
             if(numBorrowed == 0)
             {
-                Console.WriteLine("You have not borrowed any tools.");
-                return;
+                throw new InvalidOperationException("You have not borrowed any tools.");
             }
 
             for (int i = 0; i < tools.Length; i++)
@@ -64,7 +63,7 @@ namespace MemberToolLibrary
 
                 if(i == tools.Length - 1)
                 {
-                   Console.WriteLine("You have not borrowed that tool.");
+                    throw new InvalidOperationException("You have not borrowed that tool.");
                 }
             }
             

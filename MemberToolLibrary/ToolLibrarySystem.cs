@@ -89,7 +89,6 @@ namespace MemberToolLibrary
                     break;
 
                 }
-
                 Console.WriteLine(memberTools[i]);
             }
         }
@@ -105,7 +104,35 @@ namespace MemberToolLibrary
 
         public void displayTopTHree()
         {
-            throw new NotImplementedException();
+            Tool[] toolSorted = tools.toArray();
+            int max = 0;
+            for(int i = 0; i < toolSorted.Length; i++)
+            {
+                Tool temp;
+                if(toolSorted[i].NoBorrowings >= max)
+                {
+                    temp = toolSorted[i];
+                    for(int j = i - 1; j >= 0; j--)
+                    {
+                        toolSorted[j + 1] = toolSorted[j];
+                    }
+                    toolSorted[0] = temp;
+                }
+
+            }
+
+            foreach(Tool t in toolSorted)
+            {
+                Console.WriteLine(t.Name + t.NoBorrowings);
+            }
+
+            //for(int k = 0; k < 3; k++)
+            //{
+            //    Console.WriteLine("Name: " + toolSorted[k].Name + " No. Borrowings: " + toolSorted[k].NoBorrowings);
+            //    Console.WriteLine("");
+            //}
+
+       
         }
 
         public string[] listTools(Member aMember)
@@ -115,7 +142,8 @@ namespace MemberToolLibrary
 
         public void returnTool(Member aMember, Tool aTool)
         {
-            throw new NotImplementedException();
+            tools.returnTool(aMember, aTool);
+            members.deleteToolToMember(aMember, aTool);
         }
     }
 }

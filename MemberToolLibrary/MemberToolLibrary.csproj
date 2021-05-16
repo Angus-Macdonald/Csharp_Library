@@ -37,16 +37,15 @@
     <Compile Include="Interfaces\iMemberCollection.cs" />
     <Compile Include="Interfaces\iToolCollection.cs" />
     <Compile Include="Interfaces\iToolLibrarySystem.cs" />
-    <Compile Include="Menu.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="MemberCollection.cs" />
     <Compile Include="Tool.cs" />
-    <Compile Include="ToolCollection.cs" />
     <Compile Include="ToolLibrarySystem.cs" />
     <Compile Include="PV.cs" />
     <Compile Include="MemberOptions\Options.cs" />
     <Compile Include="Index.cs" />
     <Compile Include="Enum.cs" />
+    <Compile Include="ToolCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MemberOptions\" />

@@ -17,6 +17,7 @@ namespace MemberToolLibrary
         public int NoBorrowings { get => noborrowings; set => noborrowings = value; }
 
         public MemberCollection MembersBorrowing = new MemberCollection();
+        public MemberCollection GetBorrowers => MembersBorrowing;
 
         public Tool(string n, int quant, int available, int noborrow)
         {
@@ -25,9 +26,7 @@ namespace MemberToolLibrary
             AvailableQuantity = available;
             NoBorrowings = noborrow;
         }
-
-        public MemberCollection GetBorrowers => MembersBorrowing;
-
+       
         public void addBorrower(Member aMember)
         {
             if (availablequantity != 0)
@@ -38,7 +37,7 @@ namespace MemberToolLibrary
             }
             else
             {
-                Console.WriteLine("We are sorry "+ aMember.FirstName + " our supply of " + name + " is fully booked.");
+                throw new InvalidOperationException("This tool is fully booked.");
             }
         }
 
@@ -51,7 +50,7 @@ namespace MemberToolLibrary
             }
             else
             {
-                Console.WriteLine("This tool is not being borrowed by " + aMember.FirstName + " " + aMember.LastName);
+                throw new InvalidOperationException("This tool is not being borrowed by member");
             }
         }
     }
