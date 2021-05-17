@@ -38,39 +38,33 @@ namespace MemberToolLibrary
 
         public void delete(Tool aTool)
         {
-            if (Array.Exists(tool, x => x.Name == aTool.Name))
-            {
-                int index = IndexOf(tool, aTool);
-                if (tool[index].AvailableQuantity == 0)
-                {
-                    throw new InvalidOperationException("The quantity of this tool has been fully booked. \n " +
-                        "Please wait for one to be returned before removing it from the system.");
 
-                }
-                else
-                {
-                    if (tool[index].Quantity - 1 == 0)
-                    {
-                        for (int i = index; i < tool.Length - 1; i++)
-                        {
-                            tool[i] = tool[i + 1];
-                        }
-                        numTools -= 1;
-                        Array.Resize(ref tool, numTools);
-                        Console.WriteLine("This tool has been removed from the library.");
-                    }
-                    else
-                    {
-                        tool[index].AvailableQuantity -= 1;
-                        tool[index].Quantity -= 1;
-                    }
-                }
+            int index = IndexOf(tool, aTool);
+            if (tool[index].AvailableQuantity == 0)
+            {
+                throw new InvalidOperationException("There is a quantity of this tool currently borrowed.\n" +
+                    "Please wait for the member to return the item, or remove a lesser amount.");
 
             }
             else
             {
-                throw new InvalidOperationException("This tool does not exist.");
+                if (tool[index].Quantity - 1 == 0)
+                {
+                    for (int i = index; i < tool.Length - 1; i++)
+                    {
+                        tool[i] = tool[i + 1];
+                    }
+                    numTools -= 1;
+                    Array.Resize(ref tool, numTools);
+                    throw new InvalidOperationException("The tool has been removed from the system.");
+                }
+                else
+                {
+                    tool[index].AvailableQuantity -= 1;
+                    tool[index].Quantity -= 1;
+                }
             }
+
         }
 
         public bool search(Tool aTool)

@@ -130,13 +130,15 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.Write("       Password: ");
             string pass = HideCharacter();
-
+            Console.WriteLine();
+            Console.WriteLine();
             Member tempMember = new Member(first, last, "0", pass);
 
             int log = memberCollect.memberLogin(tempMember);
             if (log == 1)
             {
                 currentMember = memberCollect.getMember(tempMember);
+
                 Console.WriteLine("Logging in ...");
                 Thread.Sleep(1000);
                 MemberMenu();
@@ -145,8 +147,6 @@ namespace MemberToolLibrary
             {
                 if (log != 1)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine();
                     Console.WriteLine("Incorrect Username or Password");
                     Console.WriteLine("Press Enter to try again, or any other key to exit.");
                     ConsoleKey key = Console.ReadKey().Key;
@@ -224,7 +224,6 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.WriteLine("Tool Categories");
             Console.WriteLine(PV.categories);
-            Console.WriteLine();
             Console.WriteLine("Select a category of tool 1-9, or 0 to return to previous menu");
             char category = Console.ReadKey(true).KeyChar;
             choices.CAT = Int32.Parse(category.ToString());
@@ -233,75 +232,12 @@ namespace MemberToolLibrary
                 StaffMenu();
             }
             Console.Clear();
-            if (category == '1')
-            {
-                Console.WriteLine("Gardening Tools");
-                Console.WriteLine(PV.gardeningTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (category == '2')
-            {
-                Console.WriteLine("Flooring Tools");
-                Console.WriteLine(PV.flooringTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (category == '3')
-            {
-                Console.WriteLine("Fencing Tools");
-                Console.WriteLine(PV.fencingTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (category == '4')
-            {
-                Console.WriteLine("Measuring Tools");
-                Console.WriteLine(PV.measuringTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (category == '5')
-            {
-                Console.WriteLine("Cleaning Tools");
-                Console.WriteLine(PV.cleaningTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (category == '6')
-            {
-                Console.WriteLine("Painting Tools");
-                Console.WriteLine(PV.paintingTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (category == '7')
-            {
-                Console.WriteLine("Electronic Tools");
-                Console.WriteLine(PV.electronicTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (category == '8')
-            {
-                Console.WriteLine("Electricity Tools");
-                Console.WriteLine(PV.electricityTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (category == '9')
-            {
-                Console.WriteLine("Automotive Tools");
-                Console.WriteLine(PV.automotiveTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
+            catDisplay(category);
             char type = Console.ReadKey(true).KeyChar;
             if (type == '0')
             {
                 AddTool();
             }
-
             choices.TYPE = Int32.Parse(type.ToString());
             Console.Clear();
             Console.WriteLine();
@@ -318,8 +254,6 @@ namespace MemberToolLibrary
             }
             else
             {
-                Console.WriteLine("That is not a valid input. Please enter a integer value (Example: 1)");
-
             }
             if (q < 1)
             {
@@ -404,6 +338,12 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.WriteLine("Remove quantity to existing tool.");
             Console.WriteLine();
+            foreach(Tool t in toolCollect.toArray())
+            {
+                Console.Write("Name:" + t.Name + " Available:" + t.AvailableQuantity + " | ");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
             Console.Write("Tool name: ");
             string name = Console.ReadLine();
             Console.WriteLine();
@@ -416,22 +356,21 @@ namespace MemberToolLibrary
             if (toolCollect.search(tempTool))
             {
                 system.delete(tempTool, q);
-                Console.WriteLine("Quantity removed from tool.");
                 Console.WriteLine();
-                Console.Write("Press Enter to try again, ");
+                Console.Write("Press Enter to remove a quantity from another tool, ");
             }
             else
             {
                 Console.WriteLine("Tool not found in system.");
                 Console.WriteLine();
-                Console.Write("Press Enter to remove more, ");
+                Console.Write("Press Enter to try again, ");
             }
             Console.WriteLine("or any other key to return to main menu.");
             ConsoleKey key = Console.ReadKey().Key;
 
             if (key == ConsoleKey.Enter)
             {
-                addExistingTool();
+                removeQuantity();
             }
             if (key != ConsoleKey.Enter)
             {
@@ -710,74 +649,15 @@ namespace MemberToolLibrary
             Console.WriteLine("Borrow a Tool");
             Console.WriteLine();
             Console.WriteLine(PV.categories);
-            Console.WriteLine();
             Console.WriteLine("Select a category between 1-9, or 0 to return to main menu.");
             char cat = Console.ReadKey().KeyChar;
             choices.CAT = Int32.Parse(cat.ToString());
             Console.Clear();
             Console.WriteLine();
-            if (cat == '1')
+            catDisplay(cat);
+            if (cat == '0')
             {
-                Console.WriteLine("Gardening Tools");
-                Console.WriteLine(PV.gardeningTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (cat == '2')
-            {
-                Console.WriteLine("Flooring Tools");
-                Console.WriteLine(PV.flooringTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (cat == '3')
-            {
-                Console.WriteLine("Fencing Tools");
-                Console.WriteLine(PV.fencingTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (cat == '4')
-            {
-                Console.WriteLine("Measuring Tools");
-                Console.WriteLine(PV.measuringTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (cat == '5')
-            {
-                Console.WriteLine("Cleaning Tools");
-                Console.WriteLine(PV.cleaningTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (cat == '6')
-            {
-                Console.WriteLine("Painting Tools");
-                Console.WriteLine(PV.paintingTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (cat == '7')
-            {
-                Console.WriteLine("Electronic Tools");
-                Console.WriteLine(PV.electronicTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (cat == '8')
-            {
-                Console.WriteLine("Electricity Tools");
-                Console.WriteLine(PV.electricityTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (cat == '9')
-            {
-                Console.WriteLine("Automotive Tools");
-                Console.WriteLine(PV.automotiveTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
+                MemberMenu();
             }
             char type = Console.ReadKey().KeyChar;
             choices.TYPE = Int32.Parse(type.ToString());
@@ -809,11 +689,16 @@ namespace MemberToolLibrary
                     try
                     {
                         Tool borrowingTool = toolCollect.getTool(name);
-                        system.borrowTool(currentMember, borrowingTool);
+                        try
+                        {
+                            system.borrowTool(currentMember, borrowingTool);
+                        }
+                        catch (Exception e) { Console.WriteLine(e.Message); break; }
+
                         Console.WriteLine("You are now borrowing the current tools:");
                         foreach (string t in memberCollect.getMember(currentMember).Tools)
                         {
-                            Console.Write(t);
+                            Console.Write(t + " ");
                         }
                     }
                     catch { }
@@ -831,89 +716,21 @@ namespace MemberToolLibrary
             Console.WriteLine("Display Tools of a Type");
             Console.WriteLine();
             Console.WriteLine(PV.categories);
-            Console.WriteLine();
             Console.WriteLine("Select a category between 1-9, or 0 to return to main menu.");
             char cat = Console.ReadKey().KeyChar;
             choices.CAT = Int32.Parse(cat.ToString());
             Console.Clear();
             Console.WriteLine();
-            if (cat == '1')
+            catDisplay(cat);
+            if (cat == '0')
             {
-                Console.WriteLine("Gardening Tools");
-                Console.WriteLine();
-                Console.WriteLine(PV.gardeningTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
+                MemberMenu();
             }
-            if (cat == '2')
-            {
-                Console.WriteLine("Flooring Tools");
-                Console.WriteLine();
-                Console.WriteLine(PV.flooringTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (cat == '3')
-            {
-                Console.WriteLine("Fencing Tools");
-                Console.WriteLine();
-                Console.WriteLine(PV.fencingTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (cat == '4')
-            {
-                Console.WriteLine("Measuring Tools");
-                Console.WriteLine();
-                Console.WriteLine(PV.measuringTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (cat == '5')
-            {
-                Console.WriteLine("Cleaning Tools");
-                Console.WriteLine();
-                Console.WriteLine(PV.cleaningTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (cat == '6')
-            {
-                Console.WriteLine("Painting Tools");
-                Console.WriteLine();
-                Console.WriteLine(PV.paintingTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-            if (cat == '7')
-            {
-                Console.WriteLine("Electronic Tools");
-                Console.WriteLine();
-                Console.WriteLine(PV.electronicTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (cat == '8')
-            {
-                Console.WriteLine("Electricity Tools");
-                Console.WriteLine();
-                Console.WriteLine(PV.electricityTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
-            }
-            if (cat == '9')
-            {
-                Console.WriteLine("Automotive Tools");
-                Console.WriteLine();
-                Console.WriteLine(PV.automotiveTools);
-                Console.WriteLine();
-                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
-            }
-
             char type = Console.ReadKey().KeyChar;
             choices.TYPE = Int32.Parse(type.ToString());
             Console.Clear();
             Console.WriteLine();
+
             string[] toolNames = catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
             ToolCollection toolTypes = new ToolCollection();
             foreach (string t in toolNames)
@@ -944,6 +761,72 @@ namespace MemberToolLibrary
 
         }
 
+        public static void catDisplay(char cat)
+        {
+            if (cat == '1')
+            {
+                Console.WriteLine("Gardening Tools");
+                Console.WriteLine(PV.gardeningTools);
+                Console.WriteLine();
+                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
+            }
+            if (cat == '2')
+            {
+                Console.WriteLine("Flooring Tools");
+                Console.WriteLine(PV.flooringTools);
+                Console.WriteLine();
+                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
+            }
+            if (cat == '3')
+            {
+                Console.WriteLine("Fencing Tools");
+                Console.WriteLine(PV.fencingTools);
+                Console.WriteLine();
+                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
+            }
+            if (cat == '4')
+            {
+                Console.WriteLine("Measuring Tools");
+                Console.WriteLine(PV.measuringTools);
+                Console.WriteLine();
+                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
+            }
+            if (cat == '5')
+            {
+                Console.WriteLine("Cleaning Tools");
+                Console.WriteLine(PV.cleaningTools);
+                Console.WriteLine();
+                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
+            }
+            if (cat == '6')
+            {
+                Console.WriteLine("Painting Tools");
+                Console.WriteLine(PV.paintingTools);
+                Console.WriteLine();
+                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
+            }
+            if (cat == '7')
+            {
+                Console.WriteLine("Electronic Tools");
+                Console.WriteLine(PV.electronicTools);
+                Console.WriteLine();
+                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
+            }
+            if (cat == '8')
+            {
+                Console.WriteLine("Electricity Tools");
+                Console.WriteLine(PV.electricityTools);
+                Console.WriteLine();
+                Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
+            }
+            if (cat == '9')
+            {
+                Console.WriteLine("Automotive Tools");
+                Console.WriteLine(PV.automotiveTools);
+                Console.WriteLine();
+                Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
+            }
+        }
 
         static void Main(string[] args)
         {

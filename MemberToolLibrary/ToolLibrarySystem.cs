@@ -11,7 +11,7 @@ namespace MemberToolLibrary
         private ToolCollection tools = new ToolCollection();
         private MemberCollection members = new MemberCollection();
 
-        public ToolCollection Tools { get => tools; set => tools = value;}
+        public ToolCollection Tools { get => tools; set => tools = value; }
         public MemberCollection Members { get => members; set => members = value; }
 
         public ToolLibrarySystem(ToolCollection tool, MemberCollection member)
@@ -28,7 +28,7 @@ namespace MemberToolLibrary
 
         public void add(Tool aTool, int quantity)
         {
-            for(int q = 0; q < quantity; q++)
+            for (int q = 0; q < quantity; q++)
             {
                 tools.add(aTool);
             }
@@ -45,32 +45,53 @@ namespace MemberToolLibrary
             {
                 if (tools.search(aTool))
                 {
-                    members.addToolToMember(aMember, aTool);
-                    tools.addMemberToTool(aMember, aTool);
+                    if (members.getMember(aMember).numBorrowed != 3)
+                    {
+                        members.addToolToMember(aMember, aTool);
+                        tools.addMemberToTool(aMember, aTool);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("You are currently borrowing 3 tools. Please return a tool before borrowing another.");
+                    }
                 }
             }
-        
+
         }
 
         public void delete(Tool aTool)
         {
-            tools.delete(aTool);
+
+            try
+            {
+                tools.delete(aTool);
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+
         }
 
         public void delete(Tool aTool, int quantity)
         {
-            if (tools.search(aTool))
+            Tool temp = tools.getTool(aTool.Name);
+
+            if (temp.AvailableQuantity < quantity)
+            {
+                Console.WriteLine("There is a quantity of this tool currently borrowed.\n" +
+                   "Please wait for the members to return the items, or remove a lesser amount.");
+            }
+            else
             {
                 for (int q = 0; q < quantity; q++)
                 {
-                    tools.delete(aTool);
+                    try
+                    {
+                        tools.delete(aTool);
+                    }
+                    catch (Exception e) { Console.WriteLine(e.Message); break; }
                 }
             }
 
-            else
-            {
-                Console.WriteLine("This tool does not exist.");
-            }
+
         }
 
         public void delete(Member aMember)
@@ -106,13 +127,14 @@ namespace MemberToolLibrary
         {
             Tool[] toolSorted = tools.toArray();
             int max = 0;
-            for(int i = 0; i < toolSorted.Length; i++)
+            for (int i = 0; i < toolSorted.Length; i++)
             {
                 Tool temp;
-                if(toolSorted[i].NoBorrowings >= max)
+                if (toolSorted[i].NoBorrowings >= max)
                 {
                     temp = toolSorted[i];
-                    for(int j = i - 1; j >= 0; j--)
+                    max = toolSorted[i].NoBorrowings;
+                    for (int j = i - 1; j >= 0; j--)
                     {
                         toolSorted[j + 1] = toolSorted[j];
                     }
@@ -120,19 +142,19 @@ namespace MemberToolLibrary
                 }
 
             }
+            Console.WriteLine();
 
-            foreach(Tool t in toolSorted)
+            int printMax = 3;
+
+            if (toolSorted.Length < printMax)
             {
-                Console.WriteLine(t.Name + t.NoBorrowings);
+                printMax = toolSorted.Length;
             }
 
-            //for(int k = 0; k < 3; k++)
-            //{
-            //    Console.WriteLine("Name: " + toolSorted[k].Name + " No. Borrowings: " + toolSorted[k].NoBorrowings);
-            //    Console.WriteLine("");
-            //}
-
-       
+            for (int k = 0; k < printMax; k++)
+            {
+                Console.WriteLine("Name: " + toolSorted[k].Name + "No.Borrowings: " + toolSorted[k].NoBorrowings);
+            }
         }
 
         public string[] listTools(Member aMember)

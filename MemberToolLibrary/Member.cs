@@ -55,9 +55,13 @@ namespace MemberToolLibrary
             {
                 if (tools[i] == aTool.Name)
                 {
-                    tools[i] = null;
+                    for(int j = i; j < tools.Length - 1; j++)
+                    {
+                        tools[j] = tools[j + 1];
+                    }
+
+                    tools[tools.Length -1 ] = null;
                     numBorrowed -= 1;
-                    Array.Sort(tools);
                     break;
                 }
 
