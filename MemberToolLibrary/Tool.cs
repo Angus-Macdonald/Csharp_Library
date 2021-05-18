@@ -5,7 +5,7 @@ using Interfaces;
 namespace MemberToolLibrary
 {
     public class Tool : iTool
-    {
+    { 
         private string name;
         private int quantity;
         private int availablequantity;

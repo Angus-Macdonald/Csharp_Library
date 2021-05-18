@@ -45,12 +45,20 @@ namespace MemberToolLibrary
             {
                 if (tools.search(aTool))
                 {
-                    try
+                    if (!aTool.GetBorrowers.toArray().Contains<Member>(aMember))
                     {
-                        aMember.addTool(aTool);
-                        aTool.addBorrower(aMember);
+                        try
+                        {
+                            aMember.addTool(aTool);
+                            aTool.addBorrower(aMember);
+
+                        }
+                        catch (Exception e) { Console.WriteLine(e.Message); }
                     }
-                    catch(InvalidOperationException) { throw; }
+                    else
+                    {
+                        throw new InvalidOperationException("You are already borrowing this tool.");
+                    }
                 }
                 else { throw new InvalidOperationException("This tool is not in the system."); }
             }
@@ -63,7 +71,7 @@ namespace MemberToolLibrary
             {
                 tools.delete(aTool);
             }
-            catch (InvalidOperationException) { throw; }
+            catch (Exception e) { Console.WriteLine(e.Message); }
 
         }
 
@@ -82,7 +90,7 @@ namespace MemberToolLibrary
                     {
                         tools.delete(aTool);
                     }
-                    catch (InvalidOperationException) { throw; }
+                    catch(Exception e){ Console.WriteLine(e.Message); }
                 }
             }
         }
@@ -148,7 +156,7 @@ namespace MemberToolLibrary
 
             for (int k = 0; k < printMax; k++)
             {
-                Console.WriteLine("Name: " + toolSorted[k].Name + "No.Borrowings: " + toolSorted[k].NoBorrowings);
+                Console.WriteLine("Name: " + toolSorted[k].Name + "  No.Borrowings: " + toolSorted[k].NoBorrowings);
             }
         }
 
@@ -169,7 +177,7 @@ namespace MemberToolLibrary
                         aTool.deleteBorrower(aMember);
                         aMember.deleteTool(aTool);
                     }
-                    catch (InvalidOperationException) { throw; }
+                    catch (Exception e) { Console.WriteLine(e.Message); }
 
                 }
                 else

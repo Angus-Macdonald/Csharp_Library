@@ -443,7 +443,7 @@ namespace MemberToolLibrary
                 system.delete(tempMember);
                 Console.WriteLine("This member has been deleted from the system.");
                 Console.WriteLine();
-                Console.Write("Press Enter to remove another member");
+                Console.Write("Press Enter to remove another member, ");
             }
             else
             {
@@ -479,7 +479,6 @@ namespace MemberToolLibrary
             Console.Write("Last Name: ");
             string last = Console.ReadLine();
             Console.WriteLine();
-            Member[] tempArray = memberCollect.toArray();
             Member tempMember = new Member(first, last, "0000", "0000");
 
             if (memberCollect.search(tempMember))
@@ -681,31 +680,31 @@ namespace MemberToolLibrary
                         Tool memberTools = tempTools.First(x => x.Name == t);
                         toolTypes.add(memberTools);
                     }
-                    catch(Exception e)
-                    { Console.WriteLine(e.Message);}
+                    catch { }
                 }
                 foreach (Tool t in toolTypes.toArray())
                 {
                     Console.WriteLine("Name: " + t.Name + " Quantity: " + t.Quantity + " Available: " + t.AvailableQuantity);
                 }
 
-
                 Console.WriteLine();
                 Console.Write("Enter the name of the tool: ");
                 string input = Console.ReadLine();
-                Tool[] tempTool = toolCollect.toArray();
+                bool exists = false;
                 foreach (string name in toolNames)
                 {
                     if (name == input)
                     {
+                        exists = true;
                         try
                         {
-                            Tool borrowingTool = tempTool.First(x => x.Name == name);
+                            Tool borrowingTool = tempTools.First(x => x.Name == name);
                             try
                             {
                                 system.borrowTool(currentMember, borrowingTool);
+                                
                             }
-                            catch (Exception e) { Console.WriteLine(e.Message); break; }
+                            catch (Exception e) { Console.WriteLine(e.Message);}
                             Console.WriteLine();
                             Console.WriteLine("You are now borrowing the current tools:");
                             foreach (string t in currentMember.Tools)
@@ -713,9 +712,18 @@ namespace MemberToolLibrary
                                 Console.Write(t + " ");
                             }
                             Console.WriteLine();
+                            break;
                         }
                         catch { }
                     }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                if (!exists)
+                {
+                    Console.WriteLine("That tool is not in the system.");
                 }
             }
             else
