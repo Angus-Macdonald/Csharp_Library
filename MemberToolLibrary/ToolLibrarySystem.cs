@@ -45,36 +45,31 @@ namespace MemberToolLibrary
             {
                 if (tools.search(aTool))
                 {
-                    if (members.getMember(aMember).numBorrowed != 3)
+                    try
                     {
-                        members.addToolToMember(aMember, aTool);
-                        tools.addMemberToTool(aMember, aTool);
+                        aMember.addTool(aTool);
+                        aTool.addBorrower(aMember);
                     }
-                    else
-                    {
-                        throw new InvalidOperationException("You are currently borrowing 3 tools. Please return a tool before borrowing another.");
-                    }
+                    catch(InvalidOperationException) { throw; }
                 }
+                else { throw new InvalidOperationException("This tool is not in the system."); }
             }
-
+            else { throw new InvalidOperationException("Member does not exist."); }
         }
 
         public void delete(Tool aTool)
         {
-
             try
             {
                 tools.delete(aTool);
             }
-            catch (Exception e) { Console.WriteLine(e.Message); }
+            catch (InvalidOperationException) { throw; }
 
         }
 
         public void delete(Tool aTool, int quantity)
         {
-            Tool temp = tools.getTool(aTool.Name);
-
-            if (temp.AvailableQuantity < quantity)
+            if (aTool.AvailableQuantity < quantity)
             {
                 Console.WriteLine("There is a quantity of this tool currently borrowed.\n" +
                    "Please wait for the members to return the items, or remove a lesser amount.");
@@ -87,11 +82,9 @@ namespace MemberToolLibrary
                     {
                         tools.delete(aTool);
                     }
-                    catch (Exception e) { Console.WriteLine(e.Message); break; }
+                    catch (InvalidOperationException) { throw; }
                 }
             }
-
-
         }
 
         public void delete(Member aMember)
@@ -101,7 +94,7 @@ namespace MemberToolLibrary
 
         public void displayBorrowingTools(Member aMember)
         {
-            string[] memberTools = members.getMember(aMember).Tools;
+            string[] memberTools = aMember.Tools;
 
             for (int i = 0; i < memberTools.Length; i++)
             {
@@ -120,7 +113,9 @@ namespace MemberToolLibrary
 
         public string getContact(Member aMember)
         {
-            return members.getMember(aMember).ContactNumber;
+            Member[] tempArray = members.toArray();
+            Member contact = tempArray.First(x => (x.LastName, x.FirstName) == (aMember.LastName, aMember.FirstName));
+            return contact.ContactNumber;
         }
 
         public void displayTopTHree()
@@ -159,13 +154,33 @@ namespace MemberToolLibrary
 
         public string[] listTools(Member aMember)
         {
-            return members.getMember(aMember).Tools;
+            return aMember.Tools;
         }
 
         public void returnTool(Member aMember, Tool aTool)
         {
-            tools.returnTool(aMember, aTool);
-            members.deleteToolToMember(aMember, aTool);
+            if (members.search(aMember))
+            {
+                if (tools.search(aTool))
+                {
+
+                    try
+                    {
+                        aTool.deleteBorrower(aMember);
+                        aMember.deleteTool(aTool);
+                    }
+                    catch (InvalidOperationException) { throw; }
+
+                }
+                else
+                {
+                    throw new InvalidOperationException("This tool does not exist.");
+                }
+
+            }
+            else { throw new InvalidOperationException("This member does not exist"); }
         }
+
+
     }
 }

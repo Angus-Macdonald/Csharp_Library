@@ -11,22 +11,15 @@ namespace MemberToolLibrary
         private int numTools = 0;
         public int Number => numTools;
 
+        public Tool[] Tools { get => tool; set => tool = value;}
+
         public void add(Tool aTool)
         {
-            if (Array.Exists(tool, x => x.Name == aTool.Name))
+            int index = IndexOf(tool, aTool);
+            if (index != (-1))
             {
-                foreach (Tool t in tool)
-                {
-                    if (t.Name == aTool.Name)
-                    {
-                        t.Quantity += 1;
-                        t.AvailableQuantity += 1;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
+                tool[index].Quantity += 1;
+                tool[index].AvailableQuantity += 1;
             }
             else
             {
@@ -38,7 +31,6 @@ namespace MemberToolLibrary
 
         public void delete(Tool aTool)
         {
-
             int index = IndexOf(tool, aTool);
             if (tool[index].AvailableQuantity == 0)
             {
@@ -84,7 +76,7 @@ namespace MemberToolLibrary
             return tool;
         }
 
-        public int IndexOf(Tool[] toolCollection, Tool aTool)
+        private int IndexOf(Tool[] toolCollection, Tool aTool)
         {
             for (int i = 0; i < toolCollection.Length; i++)
             {
@@ -100,38 +92,6 @@ namespace MemberToolLibrary
             }
 
             return -1;
-        }
-
-        public Tool getTool(string toolName)
-        {
-            foreach (Tool heldTool in tool)
-            {
-                if (heldTool.Name == toolName)
-                {
-                    Tool returnTool = heldTool;
-                    return returnTool;
-                }
-                else
-                {
-                    continue;
-                }
-
-            }
-            throw new InvalidOperationException("Tool not found");
-        }
-
-        public void addMemberToTool(Member aMember, Tool aTool)
-        {
-            int index = IndexOf(tool, aTool);
-            tool[index].addBorrower(aMember);
-        }
-
-        public void returnTool(Member aMember, Tool aTool)
-        {
-            int index = IndexOf(tool, aTool);
-
-            tool[index].AvailableQuantity += 1;
-            tool[index].MembersBorrowing.delete(aMember);
         }
     }
 }

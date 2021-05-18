@@ -95,7 +95,6 @@ namespace MemberToolLibrary
                 Thread.Sleep(1000);
                 StaffMenu();
             }
-
             else
             {
                 Console.WriteLine();
@@ -132,34 +131,32 @@ namespace MemberToolLibrary
             string pass = HideCharacter();
             Console.WriteLine();
             Console.WriteLine();
+
             Member tempMember = new Member(first, last, "0", pass);
+            Member[] memberArray = memberCollect.toArray();
 
-            int log = memberCollect.memberLogin(tempMember);
-            if (log == 1)
+            if (Array.Exists(memberArray, x => (x.LastName, x.FirstName, x.PIN) == (tempMember.LastName, tempMember.FirstName, tempMember.PIN)))
             {
-                currentMember = memberCollect.getMember(tempMember);
-
+                currentMember = tempMember;
                 Console.WriteLine("Logging in ...");
                 Thread.Sleep(1000);
                 MemberMenu();
             }
+
             else
             {
-                if (log != 1)
+                Console.WriteLine("Incorrect Username or Password");
+                Console.WriteLine("Press Enter to try again, or any other key to exit.");
+                ConsoleKey key = Console.ReadKey().Key;
+                if (key == ConsoleKey.Enter)
                 {
-                    Console.WriteLine("Incorrect Username or Password");
-                    Console.WriteLine("Press Enter to try again, or any other key to exit.");
-                    ConsoleKey key = Console.ReadKey().Key;
-                    if (key == ConsoleKey.Enter)
-                    {
-                        MemberLogin();
-                    }
-                    if (key != ConsoleKey.Enter)
-                    {
-                        WelcomeMenu();
-                    }
+                    MemberLogin();
                 }
+                if (key != ConsoleKey.Enter)
+                {
+                    WelcomeMenu();
 
+                }
             }
         }
 
@@ -278,11 +275,11 @@ namespace MemberToolLibrary
             choices.clear();
             Console.WriteLine("Press Enter to add another tool, or any other key to return to menu.");
             ConsoleKey key = Console.ReadKey().Key;
-            if(key == ConsoleKey.Enter)
+            if (key == ConsoleKey.Enter)
             {
                 AddTool();
             }
-            if(key != ConsoleKey.Enter)
+            if (key != ConsoleKey.Enter)
             {
                 StaffMenu();
             }
@@ -338,7 +335,7 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.WriteLine("Remove quantity to existing tool.");
             Console.WriteLine();
-            foreach(Tool t in toolCollect.toArray())
+            foreach (Tool t in toolCollect.toArray())
             {
                 Console.Write("Name:" + t.Name + " Available:" + t.AvailableQuantity + " | ");
             }
@@ -399,7 +396,7 @@ namespace MemberToolLibrary
             Member tempMember = new Member(first, last, mob, pin);
             Console.WriteLine();
             if (memberCollect.search(tempMember))
-            { 
+            {
                 Console.Write("This user already exists.");
                 Console.WriteLine();
                 Console.Write("Press Enter to try again, ");
@@ -482,7 +479,9 @@ namespace MemberToolLibrary
             Console.Write("Last Name: ");
             string last = Console.ReadLine();
             Console.WriteLine();
+            Member[] tempArray = memberCollect.toArray();
             Member tempMember = new Member(first, last, "0000", "0000");
+
             if (memberCollect.search(tempMember))
             {
                 string contact = system.getContact(tempMember);
@@ -573,7 +572,7 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.WriteLine("Tools that you currently borrow");
             Console.WriteLine();
-            string[] memberTools = memberCollect.getMember(currentMember).Tools;
+            string[] memberTools = currentMember.Tools;
             Console.WriteLine("Currently Borrowed:");
             foreach (string t in memberTools)
             {
@@ -592,7 +591,7 @@ namespace MemberToolLibrary
             Console.WriteLine("Return a Tool");
             Console.WriteLine();
 
-            string[] memberTools = memberCollect.getMember(currentMember).Tools;
+            string[] memberTools = currentMember.Tools;
             Console.Write("Currently Borrowed: ");
             foreach (string t in memberTools)
             {
@@ -601,7 +600,7 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.Write("Enter the name of the tool: ");
             string input = Console.ReadLine();
-
+            Tool[] tempTools = toolCollect.toArray();
             if (memberTools.Contains(input))
             {
                 foreach (string t in memberTools)
@@ -610,9 +609,11 @@ namespace MemberToolLibrary
                     {
                         try
                         {
-                            Tool returnTool = toolCollect.getTool(t);
-                            Member returnMember = memberCollect.getMember(currentMember);
-                            system.returnTool(returnMember, returnTool);
+                            Tool returnTool = tempTools.First(x => x.Name == t);
+                            try
+                            {
+                                system.returnTool(currentMember, returnTool);
+                            }catch(Exception e) { Console.WriteLine(e.Message); break; }
 
                             Console.WriteLine("Tool has been returned.");
                             break;
@@ -663,48 +664,68 @@ namespace MemberToolLibrary
             choices.TYPE = Int32.Parse(type.ToString());
             Console.Clear();
             Console.WriteLine();
-            string[] toolNames = catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
+            string[] toolNames = {};
+            try
+            {
+                toolNames = catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
+            }
+            catch { }
             ToolCollection toolTypes = new ToolCollection();
-            foreach (string t in toolNames)
+            Tool[] tempTools = toolCollect.toArray();
+            if (toolNames.Length != 0)
             {
-                try
-                {
-                    Tool memberTools = toolCollect.getTool(t);
-                    toolTypes.add(memberTools);
-                }
-                catch
-                {}
-            }
-            foreach (Tool t in toolTypes.toArray())
-            {
-                Console.WriteLine("Name: " + t.Name + " Quantity: " + t.Quantity + " Available: " + t.AvailableQuantity);
-            }
-            Console.WriteLine();
-            Console.Write("Enter the name of the tool: ");
-            string input = Console.ReadLine();
-            foreach (string name in toolNames)
-            {
-                if (name == input)
+                foreach (string t in toolNames)
                 {
                     try
                     {
-                        Tool borrowingTool = toolCollect.getTool(name);
+                        Tool memberTools = tempTools.First(x => x.Name == t);
+                        toolTypes.add(memberTools);
+                    }
+                    catch(Exception e)
+                    { Console.WriteLine(e.Message);}
+                }
+                foreach (Tool t in toolTypes.toArray())
+                {
+                    Console.WriteLine("Name: " + t.Name + " Quantity: " + t.Quantity + " Available: " + t.AvailableQuantity);
+                }
+
+
+                Console.WriteLine();
+                Console.Write("Enter the name of the tool: ");
+                string input = Console.ReadLine();
+                Tool[] tempTool = toolCollect.toArray();
+                foreach (string name in toolNames)
+                {
+                    if (name == input)
+                    {
                         try
                         {
-                            system.borrowTool(currentMember, borrowingTool);
+                            Tool borrowingTool = tempTool.First(x => x.Name == name);
+                            try
+                            {
+                                system.borrowTool(currentMember, borrowingTool);
+                            }
+                            catch (Exception e) { Console.WriteLine(e.Message); break; }
+                            Console.WriteLine();
+                            Console.WriteLine("You are now borrowing the current tools:");
+                            foreach (string t in currentMember.Tools)
+                            {
+                                Console.Write(t + " ");
+                            }
+                            Console.WriteLine();
                         }
-                        catch (Exception e) { Console.WriteLine(e.Message); break; }
-
-                        Console.WriteLine("You are now borrowing the current tools:");
-                        foreach (string t in memberCollect.getMember(currentMember).Tools)
-                        {
-                            Console.Write(t + " ");
-                        }
+                        catch { }
                     }
-                    catch { }
                 }
             }
-            Thread.Sleep(2000);
+            else
+            {
+                Console.WriteLine("No tools available.");
+                
+            }
+
+            Console.WriteLine("Press any key to return to main menu.");
+            Console.ReadKey();
             MemberMenu();
         }
 
@@ -730,27 +751,39 @@ namespace MemberToolLibrary
             choices.TYPE = Int32.Parse(type.ToString());
             Console.Clear();
             Console.WriteLine();
-
-            string[] toolNames = catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
-            ToolCollection toolTypes = new ToolCollection();
-            foreach (string t in toolNames)
+            string[] toolNames = {};
+            try
             {
-                try
-                {
-                    Tool memberTools = toolCollect.getTool(t);
-
-                    if (memberTools.Name != "null")
-                    {
-                        toolTypes.add(memberTools);
-                    }
-                }
-                catch { }
-
+                toolNames = catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
             }
-
-            foreach (Tool t in toolTypes.toArray())
+            catch { }
+            ToolCollection toolTypes = new ToolCollection();
+            Tool[] tempTools = toolCollect.toArray();
+            if (toolNames.Length != 0)
             {
-                Console.WriteLine("Name: " + t.Name + " Quantity: " + t.Quantity + " Available: " + t.AvailableQuantity);
+                foreach (string t in toolNames)
+                {
+                    try
+                    {
+                        Tool memberTools = tempTools.First(x => x.Name == t);
+
+                        if (memberTools.Name != "null")
+                        {
+                            toolTypes.add(memberTools);
+                        }
+                    }
+                    catch { }
+
+                }
+
+                foreach (Tool t in toolTypes.toArray())
+                {
+                    Console.WriteLine("Name: " + t.Name + " Quantity: " + t.Quantity + " Available: " + t.AvailableQuantity);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No tools available.");
             }
 
             Console.WriteLine();

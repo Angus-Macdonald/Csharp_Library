@@ -13,7 +13,7 @@ namespace MemberToolLibrary
         private string mobile;
         private string pin;
         private string[] tools = new string[3];
-        public int numBorrowed = 0;
+        private int numBorrowed = 0;
 
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }

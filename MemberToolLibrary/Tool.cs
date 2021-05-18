@@ -16,7 +16,7 @@ namespace MemberToolLibrary
         public int AvailableQuantity { get => availablequantity; set => availablequantity = value; }
         public int NoBorrowings { get => noborrowings; set => noborrowings = value; }
 
-        public MemberCollection MembersBorrowing = new MemberCollection();
+        private MemberCollection MembersBorrowing = new MemberCollection();
         public MemberCollection GetBorrowers => MembersBorrowing;
 
         public Tool(string n, int quant, int available, int noborrow)
