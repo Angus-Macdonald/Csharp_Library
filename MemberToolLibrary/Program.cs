@@ -13,6 +13,9 @@ namespace MemberToolLibrary
         public static string[,] catType = new string[9, 6];
         public static Index choices = new Index();
         public static Member currentMember = new Member("empty", "empty", "0", "0");
+
+        public static char[] ints = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+
         public static string HideCharacter() //This needs updating/reference to stackoverflow
         {
             ConsoleKeyInfo key;
@@ -137,7 +140,7 @@ namespace MemberToolLibrary
 
             if (Array.Exists(memberArray, x => (x.LastName, x.FirstName, x.PIN) == (tempMember.LastName, tempMember.FirstName, tempMember.PIN)))
             {
-                currentMember = tempMember;
+                currentMember = memberArray.First(x => (x.LastName, x.FirstName, x.PIN) == (tempMember.LastName, tempMember.FirstName, tempMember.PIN));
                 Console.WriteLine("Logging in ...");
                 Thread.Sleep(1000);
                 MemberMenu();
@@ -178,8 +181,26 @@ namespace MemberToolLibrary
             char input = Console.ReadKey().KeyChar;
             if (input == '0')
             {
-                WelcomeMenu();
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine("Are you sure you want to log out?");
+                Console.WriteLine();
+                Console.Write("Y/N:");
+                char i = Console.ReadKey(true).KeyChar;
+                if (i == 'y' || i == 'Y')
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Logging off...");
+                    Console.WriteLine();
+                    Thread.Sleep(1000);
+                    WelcomeMenu();
+                }
+                if (i == 'n' || i == 'N')
+                {
+                    StaffMenu();
+                }
             }
+
             else
             {
                 if (input == '1')
@@ -223,7 +244,10 @@ namespace MemberToolLibrary
             Console.WriteLine(PV.categories);
             Console.WriteLine("Select a category of tool 1-9, or 0 to return to previous menu");
             char category = Console.ReadKey(true).KeyChar;
-            choices.CAT = Int32.Parse(category.ToString());
+            if (ints.Contains(category))
+            {
+                choices.CAT = Int32.Parse(category.ToString());
+            }
             if (category == '0')
             {
                 StaffMenu();
@@ -235,7 +259,10 @@ namespace MemberToolLibrary
             {
                 AddTool();
             }
-            choices.TYPE = Int32.Parse(type.ToString());
+            if (ints.Contains(type))
+            {
+                choices.TYPE = Int32.Parse(type.ToString());
+            }
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("Creating New Tool");
@@ -261,10 +288,18 @@ namespace MemberToolLibrary
             Tool newTool = new Tool(toolName, q, q, 0);
             if (toolCollect.search(newTool))
             {
-                Console.WriteLine("This tool already exists. Please use the add new pieces of an existing tool option.");
-                Console.WriteLine("Returning to staff menu now...");
-                Thread.Sleep(1000);
-                StaffMenu();
+                Console.WriteLine("This tool already exists. Please use the add new pieces of an existing tool option");
+                Console.WriteLine("on the staff menu.");
+                Console.WriteLine("Press Enter to try again, or any other key to return to staff menu.");
+                ConsoleKey input = Console.ReadKey().Key;
+                if(input == ConsoleKey.Enter)
+                {
+                    AddTool();
+                }
+                if(input != ConsoleKey.Enter)
+                {
+                    StaffMenu();
+                }  
             }
             else
             {
@@ -291,6 +326,17 @@ namespace MemberToolLibrary
             Console.SetWindowSize(47, 20);
             Console.WriteLine();
             Console.WriteLine("Add quantity to existing tool.");
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine();
+            if (toolCollect.Number != 0)
+            {
+                foreach (Tool t in toolCollect.toArray())
+                {
+                    Console.WriteLine("Name:" + t.Name + " Quantity:" + t.Quantity);
+                }
+            }
+            Console.WriteLine();
             Console.WriteLine();
             Console.Write("Tool name: ");
             string name = Console.ReadLine();
@@ -335,9 +381,14 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.WriteLine("Remove quantity to existing tool.");
             Console.WriteLine();
-            foreach (Tool t in toolCollect.toArray())
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine();
+            if (toolCollect.Number != 0)
             {
-                Console.Write("Name:" + t.Name + " Available:" + t.AvailableQuantity + " | ");
+                foreach (Tool t in toolCollect.toArray())
+                {
+                    Console.WriteLine("Name:" + t.Name + " Available:" + t.AvailableQuantity);
+                }
             }
             Console.WriteLine();
             Console.WriteLine();
@@ -352,7 +403,12 @@ namespace MemberToolLibrary
 
             if (toolCollect.search(tempTool))
             {
-                system.delete(tempTool, q);
+                Tool deleteTool = toolCollect.toArray().First(x => x.Name == tempTool.Name);
+                try
+                {
+                    system.delete(deleteTool, q);
+                }
+                catch(Exception e) { Console.WriteLine(e.Message); }
                 Console.WriteLine();
                 Console.Write("Press Enter to remove a quantity from another tool, ");
             }
@@ -526,9 +582,23 @@ namespace MemberToolLibrary
 
             if (input == '0')
             {
-                Console.WriteLine("Logging off ...");
-                Thread.Sleep(1000);
-                WelcomeMenu();
+                Console.Clear();
+                Console.WriteLine("");
+                Console.WriteLine("Are you sure you want to log out?");
+                Console.Write("Y/N:");
+                char i = Console.ReadKey(true).KeyChar;
+                if(i == 'y' || i == 'Y')
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Logging off...");
+                    Thread.Sleep(1000);
+                    WelcomeMenu();
+                }
+                if(i == 'n' || i == 'N')
+                {
+                    MemberMenu();
+                }
+
             }
             if (input == '1')
             {
@@ -571,7 +641,8 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.WriteLine("Tools that you currently borrow");
             Console.WriteLine();
-            string[] memberTools = currentMember.Tools;
+            Member newMember = memberCollect.toArray().First(x => (x.LastName, x.FirstName) == (currentMember.LastName, currentMember.FirstName));
+            string[] memberTools = newMember.Tools;
             Console.WriteLine("Currently Borrowed:");
             foreach (string t in memberTools)
             {
@@ -651,7 +722,10 @@ namespace MemberToolLibrary
             Console.WriteLine(PV.categories);
             Console.WriteLine("Select a category between 1-9, or 0 to return to main menu.");
             char cat = Console.ReadKey().KeyChar;
-            choices.CAT = Int32.Parse(cat.ToString());
+            if (ints.Contains(cat))
+            {
+                choices.CAT = Int32.Parse(cat.ToString());
+            }
             Console.Clear();
             Console.WriteLine();
             catDisplay(cat);
@@ -660,7 +734,10 @@ namespace MemberToolLibrary
                 MemberMenu();
             }
             char type = Console.ReadKey().KeyChar;
-            choices.TYPE = Int32.Parse(type.ToString());
+            if (ints.Contains(type))
+            {
+                choices.TYPE = Int32.Parse(type.ToString());
+            }
             Console.Clear();
             Console.WriteLine();
             string[] toolNames = {};
@@ -747,7 +824,10 @@ namespace MemberToolLibrary
             Console.WriteLine(PV.categories);
             Console.WriteLine("Select a category between 1-9, or 0 to return to main menu.");
             char cat = Console.ReadKey().KeyChar;
-            choices.CAT = Int32.Parse(cat.ToString());
+            if (ints.Contains(cat))
+            {
+                choices.CAT = Int32.Parse(cat.ToString());
+            }
             Console.Clear();
             Console.WriteLine();
             catDisplay(cat);
@@ -756,7 +836,10 @@ namespace MemberToolLibrary
                 MemberMenu();
             }
             char type = Console.ReadKey().KeyChar;
-            choices.TYPE = Int32.Parse(type.ToString());
+            if (ints.Contains(type))
+            {
+                choices.TYPE = Int32.Parse(type.ToString());
+            }
             Console.Clear();
             Console.WriteLine();
             string[] toolNames = {};

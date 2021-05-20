@@ -51,7 +51,6 @@ namespace MemberToolLibrary
             NoBorrowings = noborrow;
         }
 
-
         /// <summary>
         /// This function will take the input Member and add it to the MemberCollection.
         /// If the available quantity is 0, it will throw an error with message detailing
@@ -63,27 +62,44 @@ namespace MemberToolLibrary
         /// <param name="aMember"> A Member type object. </param>
         public void addBorrower(Member aMember)
         {
+            /// If the tool has availability to be borrowed.
             if (availablequantity != 0)
             {
+                /// Add the member to the collection.
                 MembersBorrowing.add(aMember);
+                /// Update the available quantity.
                 availablequantity -= 1;
+                /// Update the number of borrowings.
                 noborrowings += 1;
             }
+            /// If the tool has 0 available.
             else
             {
+                /// Returns an error that the tool is fully booked.
                 throw new InvalidOperationException("This tool is fully booked.");
             }
         }
 
+        /// <summary>
+        /// This function will take the input Member and remove it from the MemberCollectio.
+        /// If the member does not exist, it will throw an error that the tool is not borrowed by member.
+        /// Otherwise, the function removes the member from the list, and updates the available quantity.
+        /// </summary>
+        /// <param name="aMember"> A Member type object. </param>
         public void deleteBorrower(Member aMember)
         {
+            /// If the member exists within the collection stored within the tool.
             if (MembersBorrowing.search(aMember))
             {
+                /// Remove the member from the collection.
                 MembersBorrowing.delete(aMember);
+                /// Update the available quantity.
                 availablequantity += 1;
             }
+            /// If the member does not exist within the borrowed collection.
             else
             {
+                /// Return an error that the tool is not borrowed by the member.
                 throw new InvalidOperationException("This tool is not being borrowed by member");
             }
         }

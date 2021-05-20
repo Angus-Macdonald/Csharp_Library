@@ -77,12 +77,12 @@ namespace MemberToolLibrary
 
         public void delete(Tool aTool, int quantity)
         {
-            if (aTool.AvailableQuantity < quantity)
+            if (quantity > aTool.AvailableQuantity)
             {
-                Console.WriteLine("There is a quantity of this tool currently borrowed.\n" +
-                   "Please wait for the members to return the items, or remove a lesser amount.");
+                throw new InvalidOperationException("There is not enough available to remove from system.\n" +
+                   "Please enter a value that is equal or less than available amount.");
             }
-            else
+            if (quantity <= aTool.AvailableQuantity)
             {
                 for (int q = 0; q < quantity; q++)
                 {
@@ -90,7 +90,11 @@ namespace MemberToolLibrary
                     {
                         tools.delete(aTool);
                     }
-                    catch(Exception e){ Console.WriteLine(e.Message); }
+                    catch (Exception e)
+                    {
+                        if (e.Message == "The tool has been removed from the system.")
+                        { Console.WriteLine(e.Message); }
+                    }
                 }
             }
         }
