@@ -43,6 +43,8 @@ namespace MemberToolLibrary
         /// <param name="quant"> Takes the quantity of a Tool. </param>
         /// <param name="available"> Takes the availale number of a time. </param>
         /// <param name="noborrow"> Takes a number of times borrowed. </param>
+        /// <pre-condition> A Tool object does not exist. </pre-condition>
+        /// <post-condition> A Tool object is created with the entered param stored within. </post-condition>
         public Tool(string n, int quant, int available, int noborrow)
         {
             Name = n;
@@ -60,6 +62,8 @@ namespace MemberToolLibrary
         /// (To update available quantity by -1, to show there is 1 less available piece of this tool.)
         /// </summary>
         /// <param name="aMember"> A Member type object. </param>
+        /// <pre-condition> A Tool has not been borrowed. </pre-condition>
+        /// <post-condition> A tool has been borrowed by a member. </post-condition>
         public void addBorrower(Member aMember)
         {
             /// If the tool has availability to be borrowed.
@@ -86,6 +90,8 @@ namespace MemberToolLibrary
         /// Otherwise, the function removes the member from the list, and updates the available quantity.
         /// </summary>
         /// <param name="aMember"> A Member type object. </param>
+        /// <pre-condition> A Tool has been borrowed by a member. </pre-condition>
+        /// <post-condition> A Tool has been returned by a member. </post-condition>
         public void deleteBorrower(Member aMember)
         {
             /// If the member exists within the collection stored within the tool.

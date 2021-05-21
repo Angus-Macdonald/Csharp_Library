@@ -47,6 +47,8 @@ namespace MemberToolLibrary
         /// <param name="last"> The last name of a member. </param>
         /// <param name="mob"> The contact number of a member. </param>
         /// <param name="pin"> The password of a member. </param>
+        /// <pre-condition> A Member object does not exist. </precondition>
+        /// <post-condition> A Member object has beeen created, with the param entries stored within. </post-condition>
         public Member(string first, string last, string mob, string pin)
         {
             FirstName = first;
@@ -62,6 +64,8 @@ namespace MemberToolLibrary
         /// tool[] string array.
         /// </summary>
         /// <param name="aTool"> A Tool type object. </param>
+        /// <pre-conditon> The Member has not borrowed a tool. </pre-conditon>
+        /// <post-condition> The Member has borrowed a tool. </post-condition>
         public void addTool(Tool aTool)
         {
             /// If the number of tools currently borrowed by user is 3
@@ -92,6 +96,8 @@ namespace MemberToolLibrary
         /// it returns and error that the user has not borrowed that tool.
         /// </summary>
         /// <param name="aTool"> A Tool type object. </param>
+        /// <pre-condition> A Member has borrowed a tool. </pre-condition>
+        /// <post-condition> A Member has returned a tool. </post-condition>
         public void deleteTool(Tool aTool)
         {
             /// Is the user has borrowed no tools.
