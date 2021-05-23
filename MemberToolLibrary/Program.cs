@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.IO;
 
 namespace MemberToolLibrary
 {
@@ -44,7 +45,7 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine();
-            string mainmenu = "################ MAIN MENU ####################";
+            string mainmenu = "--------------- MAIN MENU ---------------";
             Console.WriteLine(PV.header);
             Console.WriteLine();
             Console.WriteLine(mainmenu);
@@ -82,7 +83,7 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.WriteLine(PV.header);
             Console.WriteLine();
-            Console.WriteLine("################ Staff Login #####################");
+            Console.WriteLine("-------------- Staff Login --------------");
             Console.WriteLine();
             Console.Write("       Username: ");
             string input = Console.ReadLine();
@@ -122,7 +123,7 @@ namespace MemberToolLibrary
             Console.WriteLine();
             Console.WriteLine(PV.header);
             Console.WriteLine();
-            Console.WriteLine("################ Member Login ####################");
+            Console.WriteLine("-------------- Member Login -------------");
             Console.WriteLine();
             Console.Write("       First Name: ");
             string first = Console.ReadLine();
@@ -168,7 +169,7 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 30);
             Console.WriteLine();
-            string menu = "################ Staff Menu ####################";
+            string menu ="-------------- Staff Menu ---------------";
             Console.WriteLine(PV.header);
             Console.WriteLine();
             Console.WriteLine(menu);
@@ -240,7 +241,7 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine();
-            Console.WriteLine("Tool Categories");
+            Console.WriteLine("------------ Tool Categories ------------");
             Console.WriteLine(PV.categories);
             Console.WriteLine("Select a category of tool 1-9, or 0 to return to previous menu");
             char category = Console.ReadKey(true).KeyChar;
@@ -265,7 +266,7 @@ namespace MemberToolLibrary
             }
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("Creating New Tool");
+            Console.WriteLine("------- Creating New Tool -------");
             Console.WriteLine();
             Console.Write("Enter the tool name: ");
             string toolName = Console.ReadLine();
@@ -325,9 +326,9 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine();
-            Console.WriteLine("Add quantity to existing tool.");
+            Console.WriteLine("----- Add quantity to existing tool -----");
             Console.WriteLine();
-            Console.WriteLine("---------------------------------");
+            Console.WriteLine("-----------------------------------------");
             Console.WriteLine();
             if (toolCollect.Number != 0)
             {
@@ -379,9 +380,9 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine();
-            Console.WriteLine("Remove quantity to existing tool.");
+            Console.WriteLine("--- Remove quantity to existing tool ---");
             Console.WriteLine();
-            Console.WriteLine("---------------------------------");
+            Console.WriteLine("----------------------------------------");
             Console.WriteLine();
             if (toolCollect.Number != 0)
             {
@@ -436,7 +437,7 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine();
-            Console.WriteLine("New Member");
+            Console.WriteLine("------- New Member -------");
             Console.WriteLine();
             Console.Write("First name: ");
             string first = Console.ReadLine();
@@ -484,7 +485,7 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine();
-            Console.WriteLine("Remove Member");
+            Console.WriteLine("------- Remove Member -------");
             Console.WriteLine();
             Console.Write("First name: ");
             string first = Console.ReadLine();
@@ -525,7 +526,7 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine();
-            Console.WriteLine("Contact Number of Member");
+            Console.WriteLine("------- Contact Number of Member -------");
             Console.WriteLine();
             Console.WriteLine("Enter the member details");
             Console.WriteLine();
@@ -568,7 +569,7 @@ namespace MemberToolLibrary
             Console.Clear();
             Console.SetWindowSize(47, 20);
             Console.WriteLine();
-            string menu = "################ Member Menu ###################";
+            string menu ="-------------- Member Menu --------------";
             Console.WriteLine(PV.header);
             Console.WriteLine();
             Console.WriteLine(menu);
@@ -626,7 +627,7 @@ namespace MemberToolLibrary
         public static void ListTop3()
         {
             Console.Clear();
-            Console.WriteLine("Top Three Most Borrowed");
+            Console.WriteLine("-------- Top Three Most Borrowed --------");
             system.displayTopTHree();
             Console.WriteLine();
             Console.WriteLine("Press any key to exit to main menu.");
@@ -639,7 +640,7 @@ namespace MemberToolLibrary
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("Tools that you currently borrow");
+            Console.WriteLine("---- Tools that you currently borrow ----");
             Console.WriteLine();
             Member newMember = memberCollect.toArray().First(x => (x.LastName, x.FirstName) == (currentMember.LastName, currentMember.FirstName));
             string[] memberTools = newMember.Tools;
@@ -658,7 +659,7 @@ namespace MemberToolLibrary
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("Return a Tool");
+            Console.WriteLine("------- Return a Tool -------");
             Console.WriteLine();
 
             string[] memberTools = currentMember.Tools;
@@ -717,8 +718,7 @@ namespace MemberToolLibrary
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("Borrow a Tool");
-            Console.WriteLine();
+            Console.WriteLine("------------- Borrow a Tool -------------");
             Console.WriteLine(PV.categories);
             Console.WriteLine("Select a category between 1-9, or 0 to return to main menu.");
             char cat = Console.ReadKey().KeyChar;
@@ -727,7 +727,6 @@ namespace MemberToolLibrary
                 choices.CAT = Int32.Parse(cat.ToString());
             }
             Console.Clear();
-            Console.WriteLine();
             catDisplay(cat);
             if (cat == '0')
             {
@@ -819,8 +818,7 @@ namespace MemberToolLibrary
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("Display Tools of a Type");
-            Console.WriteLine();
+            Console.WriteLine("-------- Display Tools of a Type --------");
             Console.WriteLine(PV.categories);
             Console.WriteLine("Select a category between 1-9, or 0 to return to main menu.");
             char cat = Console.ReadKey().KeyChar;
@@ -829,7 +827,6 @@ namespace MemberToolLibrary
                 choices.CAT = Int32.Parse(cat.ToString());
             }
             Console.Clear();
-            Console.WriteLine();
             catDisplay(cat);
             if (cat == '0')
             {
@@ -889,63 +886,63 @@ namespace MemberToolLibrary
         {
             if (cat == '1')
             {
-                Console.WriteLine("Gardening Tools");
+                Console.WriteLine("---------- Gardening Tools ----------");
                 Console.WriteLine(PV.gardeningTools);
                 Console.WriteLine();
                 Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
             }
             if (cat == '2')
             {
-                Console.WriteLine("Flooring Tools");
+                Console.WriteLine("---------- Flooring Tools ----------");
                 Console.WriteLine(PV.flooringTools);
                 Console.WriteLine();
                 Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
             }
             if (cat == '3')
             {
-                Console.WriteLine("Fencing Tools");
+                Console.WriteLine("---------- Fencing Tools ----------");
                 Console.WriteLine(PV.fencingTools);
                 Console.WriteLine();
                 Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
             }
             if (cat == '4')
             {
-                Console.WriteLine("Measuring Tools");
+                Console.WriteLine("---------- Measuring Tools ----------");
                 Console.WriteLine(PV.measuringTools);
                 Console.WriteLine();
                 Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
             }
             if (cat == '5')
             {
-                Console.WriteLine("Cleaning Tools");
+                Console.WriteLine("---------- Cleaning Tools ----------");
                 Console.WriteLine(PV.cleaningTools);
                 Console.WriteLine();
                 Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
             }
             if (cat == '6')
             {
-                Console.WriteLine("Painting Tools");
+                Console.WriteLine("---------- Painting Tools ----------");
                 Console.WriteLine(PV.paintingTools);
                 Console.WriteLine();
                 Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");
             }
             if (cat == '7')
             {
-                Console.WriteLine("Electronic Tools");
+                Console.WriteLine("---------- Electronic Tools ----------");
                 Console.WriteLine(PV.electronicTools);
                 Console.WriteLine();
                 Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
             }
             if (cat == '8')
             {
-                Console.WriteLine("Electricity Tools");
+                Console.WriteLine("---------- Electricity Tools ----------");
                 Console.WriteLine(PV.electricityTools);
                 Console.WriteLine();
                 Console.WriteLine("Select a type of tool 1-5, or 0 to return to previous menu");
             }
             if (cat == '9')
             {
-                Console.WriteLine("Automotive Tools");
+                Console.WriteLine("---------- Automotive Tools ----------");
                 Console.WriteLine(PV.automotiveTools);
                 Console.WriteLine();
                 Console.WriteLine("Select a type of tool 1-6, or 0 to return to previous menu");

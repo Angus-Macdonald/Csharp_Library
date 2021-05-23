@@ -4,7 +4,7 @@ namespace MemberToolLibrary
     public static class PV
     {
         public const string header = "   Welcome to the Library Tool Rental System  ";
-        public const string spacer = "###############################################";
+        public const string spacer = "-----------------------------------------";
         private const string staffUsername = "staff";
         private const string staffPassword = "today123";
 
