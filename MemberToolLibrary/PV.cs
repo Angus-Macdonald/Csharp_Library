@@ -1,6 +1,13 @@
 ﻿using System;
 namespace MemberToolLibrary
 {
+    /// <summary>
+    /// Public Variable: PV
+    /// A public class that store strings that are used frequently in the console display for the software system.
+    /// These variables are accessed publicly across the classes by calling PV.stringName. The staff log in details
+    /// are stored here privately with getters available, to change the generic staff username/password, just change
+    /// the two variables staffUsername and staffPassword.
+    /// </summary>
     public static class PV
     {
         public const string header = "   Welcome to the Library Tool Rental System  ";

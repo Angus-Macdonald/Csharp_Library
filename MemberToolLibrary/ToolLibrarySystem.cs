@@ -54,7 +54,6 @@ namespace MemberToolLibrary
             }
         }
 
-
         /// <summary>
         /// This function adds a Member type object ot the member collection.
         /// </summary>
@@ -63,7 +62,6 @@ namespace MemberToolLibrary
         {
             members.add(aMember);
         }
-
 
         /// <summary>
         /// This function updates a member and a tool by adding both to each other.
@@ -206,7 +204,6 @@ namespace MemberToolLibrary
             return contact.ContactNumber; 
         }
 
-
         /// <summary>
         /// A function that prints to console the 3 most borrowed tools within the system. 
         /// </summary>
@@ -214,82 +211,83 @@ namespace MemberToolLibrary
         {
             /// Gets all the tools in the toolcollection into an array.
             Tool[] toolSorted = tools.toArray();
-
+            /// Formatting
             Console.WriteLine();
-
+            /// Calls the private method heapsort and passes the toolcollection array.
             HeapSort(toolSorted);
-
+            /// Prints the last 3 elements in the sorted array, in descending borrowed order.
             for (int index = toolSorted.Length - 1; index >= toolSorted.Length - 3; index--)
             {
                 Console.WriteLine("Name:" + toolSorted[index].Name +  " No. Borrows:" + toolSorted[index].NoBorrowings);
             }
-            /// A variable that stores the current maximum of a borrowings.
-            //int max = 0;
-            ///// Loops through the array of stored tools.
-            //for (int i = 0; i < toolSorted.Length; i++)
-            //{
-            //    /// Creates a temporary tool object.
-            //    Tool temp;
-            //    /// If the current interatable tool borrowings is equal or larger than the current max borrowings.
-            //    if (toolSorted[i].NoBorrowings >= max)
-            //    {
-            //        /// Store the greater max tool into the temp object
-            //        temp = toolSorted[i];
-            //        /// Update the current max no borrowings
-            //        max = toolSorted[i].NoBorrowings;
-
-            //        /// Iterates backwards throughout the tool array from the max tool, moving the tool before it into its position.
-            //        for (int j = i - 1; j >= 0; j--)
-            //        {
-            //            toolSorted[j + 1] = toolSorted[j];
-            //        }
-            //        toolSorted[0] = temp;
-            //    }
-            //}
-            //Console.WriteLine();
-
-            //int printMax = 3;
-
-            //if (toolSorted.Length < printMax)
-            //{
-            //    printMax = toolSorted.Length;
-            //}
-
-            //for (int k = 0; k < printMax; k++)
-            //{
-            //    Console.WriteLine("Name: " + toolSorted[k].Name + "  No.Borrowings: " + toolSorted[k].NoBorrowings);
-            //}
         }
 
+        /// <summary>
+        /// Returns a string array of tools the param Member has borrowed.
+        /// </summary>
+        /// <param name="aMember"> A Member type object </param>
+        /// <returns> String Array </returns>
         public string[] listTools(Member aMember)
         {
             return aMember.Tools;
         }
 
+        /// <summary>
+        /// Function that updates a Tool and Member objects owhen the Member returns a tool.
+        /// Removes the tool from the Members borrowed tools, and removes Member from a tools members.
+        /// </summary>
+        /// <param name="aMember"> A Member type object </param>
+        /// <param name="aTool"> A Tool type object </param>
         public void returnTool(Member aMember, Tool aTool)
-        {
+        {   /// Check the member exists within the system.
             if (members.search(aMember))
             {
+                /// Check the tool exists within the system.
                 if (tools.search(aTool))
                 {
-
                     try
                     {
+                        /// Removes borrower from the tool
                         aTool.deleteBorrower(aMember);
+                        /// Removes the tool from the member
                         aMember.deleteTool(aTool);
                     }
+                    /// If it recieves any errors, prints them out to console.
                     catch (Exception e) { Console.WriteLine(e.Message); }
 
                 }
                 else
-                {
+                {   /// Return an error if the tool does not exist.
                     throw new InvalidOperationException("This tool does not exist.");
                 }
 
             }
-            else { throw new InvalidOperationException("This member does not exist"); }
+            else
+            {   /// Return an error if the member does not exist.
+                throw new InvalidOperationException("This member does not exist");
+            }
         }
 
+        /// <summary>
+        /// This function uses a heap sort to arrange a Tool[] by the number of borrowings in ascending order.
+        /// The function converts the array into a "heap" or tree for processing.
+        /// </summary>
+        /// <param name="tools"> An array of Tool type objects </param>
+        private void HeapSort(Tool[] tools)
+        {
+            /// Converts the tool[] into a heap
+            HeapBottomUp(tools);
+            /// Removes the maximum value from the heap and then rebuilds the heap.
+            for (int i = 0; i < tools.Length - 1; i++)
+            {
+                MaxKeyDelete(tools, tools.Length - i);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tools"></param>
         private void HeapBottomUp(Tool[] tools)
         {
             int n = tools.Length;
@@ -315,20 +313,6 @@ namespace MemberToolLibrary
                 tools[k] = v;
             }
         }
-
-        private void HeapSort(Tool[] tools)
-        {
-            //Use the HeapBottomUp procedure to convert the array, data, into a heap
-            HeapBottomUp(tools);
-
-
-            //repeatly remove the maximum key from the heap and then rebuild the heap
-            for (int i = 0; i <= tools.Length - 2; i++)
-            {
-                MaxKeyDelete(tools, tools.Length - i);
-            }
-        }
-
 
         private void MaxKeyDelete(Tool[] tools, int size)
         {

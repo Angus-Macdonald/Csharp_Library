@@ -73,7 +73,7 @@ namespace MemberToolLibrary
             int index = IndexOf(tool, aTool);
 
             /// If the tool does not exist within the collection
-            if(index == -1)
+            if (index == -1)
             {
                 /// Returns an error that the tool does not exist.
                 throw new InvalidOperationException("This tool does not exist.");
@@ -150,7 +150,6 @@ namespace MemberToolLibrary
             return tool;
         }
 
-
         /// <summary>
         /// This function returns and index of a Tool object within a Tool[].
         /// </summary>
@@ -173,7 +172,6 @@ namespace MemberToolLibrary
                 {
                     continue;
                 }
-
             }
             /// If the search completes the array and hasn't returned an index (Tool isn't found).
             /// It returns -1.

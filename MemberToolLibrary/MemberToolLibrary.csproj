@@ -44,7 +44,6 @@
     <Compile Include="PV.cs" />
     <Compile Include="MemberOptions\Options.cs" />
     <Compile Include="Index.cs" />
-    <Compile Include="Enum.cs" />
     <Compile Include="ToolCollection.cs" />
   </ItemGroup>
   <ItemGroup>

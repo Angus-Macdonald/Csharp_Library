@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.IO;
 
 namespace MemberToolLibrary
 {
@@ -745,6 +744,7 @@ namespace MemberToolLibrary
                 toolNames = catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
             }
             catch { }
+            choices.clear();
             ToolCollection toolTypes = new ToolCollection();
             Tool[] tempTools = toolCollect.toArray();
             if (toolNames.Length != 0)
@@ -845,6 +845,7 @@ namespace MemberToolLibrary
                 toolNames = catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
             }
             catch { }
+            choices.clear();
             ToolCollection toolTypes = new ToolCollection();
             Tool[] tempTools = toolCollect.toArray();
             if (toolNames.Length != 0)
