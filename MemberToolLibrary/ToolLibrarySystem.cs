@@ -357,12 +357,13 @@ namespace MemberToolLibrary
 
             /// Current size
             int n = size - 1;
+            /// Status of the heap completion
             bool heap = false;
             int k = 0;
             Tool v = tools[0];
             while ((!heap) && ((2 * k + 1) <= (n - 1)))
             {
-                int j = 2 * k + 1; //the left child of k
+                int j = (2 * k + 1); //the left child of k
                 if (j < (n - 1))   //k has two children
                     if (tools[j].NoBorrowings < tools[j + 1].NoBorrowings)
                         j = j + 1;  //j is the larger child of k
