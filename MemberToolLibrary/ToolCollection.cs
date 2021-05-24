@@ -113,7 +113,6 @@ namespace MemberToolLibrary
                     tool[index].Quantity -= 1;
                 }
             }
-
         }
 
         /// <summary>

@@ -109,5 +109,13 @@ namespace MemberToolLibrary
                 throw new InvalidOperationException("This tool is not being borrowed by member");
             }
         }
+
+        /// <summary>
+        /// Public function to print the current information of the Tool formatted appropriately.
+        /// </summary>
+        public void printTool()
+        {
+            Console.WriteLine("Name:" + Name + "|Quantity: " + Quantity + "|Available: " + AvailableQuantity + "|No. Borrowings: " + NoBorrowings);
+        }
     }
 }
