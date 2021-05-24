@@ -276,52 +276,87 @@ namespace MemberToolLibrary
         private void HeapSort(Tool[] tools)
         {
             /// Converts the tool[] into a heap
-            HeapBottomUp(tools);
+            HeapBottomUp(tools); //O(n*log(n))
             /// Removes the maximum value from the heap and then rebuilds the heap.
-            for (int i = 0; i < tools.Length - 1; i++)
+
+            /// If the tool array has less than 3 members
+            if (tools.Length < 3)
             {
-                MaxKeyDelete(tools, tools.Length - i);
+                /// Runs the maxkeydelete for the length of the array
+                for (int i = 0; i < tools.Length; i++)
+                {
+                    MaxKeyDelete(tools, tools.Length - i); // O(log(n))
+                }
+            }
+            /// If it has 3 or more tools
+            else
+            {
+                /// Only does it 3 times, as we only need the last 3 (top 3 greatest) values.
+                for (int i = 0; i < 3; i++)
+                {
+                    MaxKeyDelete(tools, tools.Length - i); // O(log(n))
+                }
+
             }
         }
 
         /// <summary>
-        /// 
+        /// Converts a Tool[] into a Heap for a HeapSort
         /// </summary>
-        /// <param name="tools"></param>
+        /// <param name="tools"> An array of Tool object</param>
         private void HeapBottomUp(Tool[] tools)
-        {
+        {   /// Initialises the length of the array to change to tool.
             int n = tools.Length;
+            /// Starts an interation at halfway in the array, iterates back to 0
             for (int i = (n - 1) / 2; i >= 0; i--)
             {
-                int k = i;
-                Tool v = tools[i];
+                int currentNode = i;
+                /// Stores the current Tool at index in a temporary object
+                Tool currentTool = tools[i];
+                /// Heap boolean if it is complete
                 bool heap = false;
-                while ((!heap) && ((2 * k + 1) <= (n - 1)))
+                /// While the heap is not complete, and the iteratable of k is within the range
+                while ((!heap) && ((2 * currentNode + 1) <= (n - 1)))
                 {
-                    int j = 2 * k + 1;  //the left child of k
-                    if (j < (n - 1))   //k has two children
-                        if (tools[j].NoBorrowings < tools[j + 1].NoBorrowings)
-                            j = j + 1;  //j is the larger child of k
-                    if (v.NoBorrowings >= tools[j].NoBorrowings)
+                    /// Grabs index of leftChild
+                    int leftChild = 2 * currentNode + 1;  //the left child of currentNode
+                    /// If the currentNode has 2 children
+                    if (leftChild < (n - 1))
+                        /// If the left child of the current node is less than the right child
+                        if (tools[leftChild].NoBorrowings < tools[leftChild + 1].NoBorrowings)
+                            /// Assign the leftChild as the right child (assigning the largest child to leftChild)
+                            leftChild = leftChild + 1;
+                    ///If the currentTool borrows is equal or great, the heap is now true
+                    if (currentTool.NoBorrowings >= tools[leftChild].NoBorrowings)
                         heap = true;
+                    /// Otherwise, swaps the nodes
                     else
                     {
-                        tools[k] = tools[j];
-                        k = j;
+                        tools[currentNode] = tools[leftChild];
+                        currentNode = leftChild;
                     }
                 }
-                tools[k] = v;
+                tools[currentNode] = currentTool;
             }
         }
 
+        /// <summary>
+        /// This function takes the largest value within the heap, shifts to the end of the array
+        /// and then re-heapify's the heap/array.
+        /// </summary>
+        /// <param name="tools"> an array of tool[]</param>
+        /// <param name="size"> The current size of the heap </param>
         private void MaxKeyDelete(Tool[] tools, int size)
         {
+            /// Stores the first node into a temporary object
             Tool temp = tools[0];
+            /// Moves the last node into the first
             tools[0] = tools[size - 1];
+            /// Stores the last node as the temporary (original first node)
             tools[size - 1] = temp;
 
+            /// Current size
             int n = size - 1;
-
             bool heap = false;
             int k = 0;
             Tool v = tools[0];

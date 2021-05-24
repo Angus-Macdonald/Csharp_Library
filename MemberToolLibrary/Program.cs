@@ -17,11 +17,21 @@ namespace MemberToolLibrary
         public static MemberCollection memberCollect = new MemberCollection();
         /// A ToolLibrarySystem object to manipulate the Tool and Member collections.
         public static ToolLibrarySystem system = new ToolLibrarySystem(toolCollect, memberCollect);
-        /// A String 2-dimensional array to store a string for each type; that contains the names of tools of that type,
-        /// seperated by a dividing character. This could be a jaggered array to save 4 blocks of memory
-        /// (50 tool types, this instance allocates 54 blocks) but for code clarity and ease of use,
-        /// I found it was appropriate to waste such minimal memory.
-        public static string[,] catType = new string[9, 6];
+        
+        private static string[] Gardening = new string[5];
+        private static string[] Flooring  = new string[6];
+        private static string[] Fencing = new string[5];
+        private static string[] Measuring = new string[6];
+        private static string[] Cleaning = new string[6];
+        private static string[] Painting = new string[6];
+        private static string[] Electronic = new string[5];
+        private static string[] Electricity = new string[5];
+        private static string[] Automotive = new string[6];
+
+        /// A String jagged array to store a string for each type; that contains the names of tools of that type,
+        /// seperated by a dividing character. This jagged array allows for indexing of the users input to store
+        /// the name of a tool within its appropriate type.
+        public static string[][] CatType = { Gardening, Flooring, Fencing, Measuring, Cleaning, Painting, Electronic, Electricity, Automotive };
         /// An instance of the Index object, please read class comments for Index.cs for further clarity on use.
         public static Index choices = new Index();
         /// A blank member object that is given the logged in users data upon successful log in.
@@ -80,9 +90,9 @@ namespace MemberToolLibrary
         public static void WelcomeMenu()
         {
             /// Clearing the console
-            Console.Clear();
+            ///// THIS CLEAR;
             /// Sets window size
-            Console.SetWindowSize(47, 20);
+            ///Console.SetWindowSize(47, 20);
             /// Formatting
             Console.WriteLine();
             /// Header
@@ -132,8 +142,8 @@ namespace MemberToolLibrary
         public static void StaffLogin()
         {
             /// General set-up and formatting
-            Console.Clear();
-            Console.SetWindowSize(47, 20);
+            /// THIS CLEAR;
+            //Console.SetWindowSize(47, 20);
             Console.WriteLine();
             Console.WriteLine(PV.header);
             Console.WriteLine();
@@ -183,8 +193,8 @@ namespace MemberToolLibrary
         public static void MemberLogin()
         {
             /// Formatting and set-up
-            Console.Clear();
-            Console.SetWindowSize(47, 20);
+            /// THIS CLEAR;
+            ///Console.SetWindowSize(47, 20);
             Console.WriteLine();
             Console.WriteLine(PV.header);
             Console.WriteLine();
@@ -243,7 +253,7 @@ namespace MemberToolLibrary
         public static void StaffMenu()
         {
             //Set-up and formatting
-            Console.Clear();
+            /// THIS CLEAR;
             Console.SetWindowSize(47, 30);
             Console.WriteLine();
             string menu ="-------------- Staff Menu ---------------";
@@ -262,7 +272,7 @@ namespace MemberToolLibrary
             /// Logs user out
             if (input == '0')
             {
-                Console.Clear();
+                /// THIS CLEAR;
                 Console.WriteLine();
                 Console.WriteLine("");
                 Console.WriteLine("");
@@ -328,8 +338,8 @@ namespace MemberToolLibrary
         public static void AddTool()
         {
             /// Formatting and Set-up
-            Console.Clear();
-            Console.SetWindowSize(47, 20);
+            /// THIS CLEAR;
+            ///Console.SetWindowSize(47, 20);
             Console.WriteLine();
             Console.WriteLine("------------ Tool Categories ------------");
             Console.WriteLine(PV.categories);
@@ -347,7 +357,7 @@ namespace MemberToolLibrary
                 StaffMenu();
             }
             /// Set up and display
-            Console.Clear();
+            /// THIS CLEAR;
             /// Takes the input category and prints the relating tool types of category to screen
             catDisplay(category);
             /// Takes the input
@@ -370,7 +380,7 @@ namespace MemberToolLibrary
                 AddTool();
             }
             /// Formatting and Set Up
-            Console.Clear();
+            /// THIS CLEAR;
             Console.WriteLine();
             Console.WriteLine("---------------- Create a New Tool ------------------");
             Console.WriteLine();
@@ -420,8 +430,8 @@ namespace MemberToolLibrary
             /// If the tool doesn't exist within the system.
             else
             {
-                /// Appends the name of the tool followed by '/' to the associated category and type string cell within catType.
-                catType[choices.CAT - 1, choices.TYPE - 1] += newTool.Name + '/';
+                /// Appends the name of the tool followed by '~' to the associated category and type string cell within catType.
+                CatType[choices.CAT - 1][choices.TYPE - 1] += newTool.Name + '~';
                 /// Adds the tool to the system.
                 system.add(newTool);
                 /// Confirms with user
@@ -448,8 +458,8 @@ namespace MemberToolLibrary
         public static void addExistingTool()
         {
             /// Format and setup of window
-            Console.Clear();
-            Console.SetWindowSize(47, 20);
+            /// THIS CLEAR;
+            ///Console.SetWindowSize(47, 20);
             Console.WriteLine();
             Console.WriteLine("            Add quantity to existing Tool            ");
             Console.WriteLine("-----------------------------------------------------");
@@ -522,8 +532,8 @@ namespace MemberToolLibrary
         public static void removeQuantity()
         {
             /// Format and setup
-            Console.Clear();
-            Console.SetWindowSize(47, 20);
+            /// THIS CLEAR;
+            ///Console.SetWindowSize(47, 20);
             Console.WriteLine();
             Console.WriteLine("           Remove quantity to existing Tool          ");
             Console.WriteLine("-----------------------------------------------------");
@@ -578,6 +588,7 @@ namespace MemberToolLibrary
                 {
                     /// Deletes the tool from the system.
                     system.delete(deleteTool, q);
+
                 }
                 /// Prints any errors that are caught
                 catch(Exception e) { Console.WriteLine(e.Message); }
@@ -610,8 +621,8 @@ namespace MemberToolLibrary
         public static void RegisterNewMember()
         {
             /// Set up and formatting
-            Console.Clear();
-            Console.SetWindowSize(47, 20);
+            /// THIS CLEAR;
+            ///Console.SetWindowSize(47, 20);
             Console.WriteLine();
             Console.WriteLine("--------------------- New Member --------------------");
             Console.WriteLine();
@@ -669,8 +680,8 @@ namespace MemberToolLibrary
         public static void RemoveMember()
         {
             /// Set up and formatting
-            Console.Clear();
-            Console.SetWindowSize(47, 20);
+            /// THIS CLEAR;
+            ///Console.SetWindowSize(47, 20);
             Console.WriteLine();
             Console.WriteLine("------------------ Remove Member --------------------");
             Console.WriteLine();
@@ -721,8 +732,8 @@ namespace MemberToolLibrary
         public static void findContact()
         {
             /// Formatting and setup
-            Console.Clear();
-            Console.SetWindowSize(47, 20);
+            /// THIS CLEAR;
+            ///Console.SetWindowSize(47, 20);
             Console.WriteLine();
             Console.WriteLine("------- Contact Number of Member -------");
             Console.WriteLine();
@@ -773,8 +784,8 @@ namespace MemberToolLibrary
         public static void MemberMenu()
         {
             /// Formatting and set up
-            Console.Clear();
-            Console.SetWindowSize(47, 20);
+            /// THIS CLEAR;
+            //Console.SetWindowSize(47, 20);
             Console.WriteLine();
             string menu ="-------------- Member Menu --------------";
             Console.WriteLine(PV.header);
@@ -791,7 +802,7 @@ namespace MemberToolLibrary
             /// If the user wishes to log out, provides a confirmation page to log out
             if (input == '0')
             {
-                Console.Clear();
+                /// THIS CLEAR;
                 Console.WriteLine();
                 Console.WriteLine("");
                 Console.WriteLine("");
@@ -844,7 +855,7 @@ namespace MemberToolLibrary
         public static void ListTop3()
         {
             /// Formatting
-            Console.Clear();
+            /// THIS CLEAR;
             Console.WriteLine("-------- Top Three Most Borrowed --------");
             /// Runs the system function
             system.displayTopTHree();
@@ -861,7 +872,7 @@ namespace MemberToolLibrary
         public static void ListToolsIAmBorrowing()
         {
             /// Formatting
-            Console.Clear();
+            /// THIS CLEAR;
             Console.WriteLine();
             Console.WriteLine("---- Tools that you currently borrow ----");
             Console.WriteLine();
@@ -887,7 +898,7 @@ namespace MemberToolLibrary
         public static void ReturnATool()
         {
             /// Formatting
-            Console.Clear();
+            /// THIS CLEAR;
             Console.WriteLine();
             Console.WriteLine("------- Return a Tool -------");
             Console.WriteLine();
@@ -962,7 +973,7 @@ namespace MemberToolLibrary
         public static void BorrowATool()
         {
             /// Formatting 
-            Console.Clear();
+            /// THIS CLEAR;
             Console.WriteLine();
             Console.WriteLine("------------------ Borrow a Tool --------------------");
             Console.WriteLine(PV.categories);
@@ -973,7 +984,7 @@ namespace MemberToolLibrary
             {
                 choices.CAT = Int32.Parse(cat.ToString());
             }
-            Console.Clear();
+            /// THIS CLEAR;
             catDisplay(cat);
             if (cat == '0')
             {
@@ -984,14 +995,14 @@ namespace MemberToolLibrary
             {
                 choices.TYPE = Int32.Parse(type.ToString());
             }
-            Console.Clear();
+            /// THIS CLEAR;
             Console.WriteLine();
             string[] toolNames = {};
             /// Takes the input choices and refers to the index of catType, which holds a string with the names of tools in that type,
-            /// that are divided by a '/' tool. It splits the string by the names and holds them within a string[] 
+            /// that are divided by a '~' tool. It splits the string by the names and holds them within a string[] 
             try
             {
-                toolNames = catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
+                toolNames = CatType[choices.CAT - 1][choices.TYPE - 1].Split('~');
             }
             catch { }
             choices.clear();
@@ -1082,7 +1093,7 @@ namespace MemberToolLibrary
         public static void DisplayToolsOfType()
         {
             /// Formatting
-            Console.Clear();
+            /// THIS CLEAR;
             Console.WriteLine();
             Console.WriteLine("-------- Display Tools of a Type --------");
             Console.WriteLine(PV.categories);
@@ -1101,7 +1112,7 @@ namespace MemberToolLibrary
                 DisplayToolsOfType();
             }
             /// Clears the console, prints out the types of that category
-            Console.Clear();
+            /// THIS CLEAR;
             catDisplay(cat);
             /// Returns them to menu
             if (cat == '0')
@@ -1115,13 +1126,13 @@ namespace MemberToolLibrary
                 choices.TYPE = Int32.Parse(type.ToString());
             }
             /// Clear the console
-            Console.Clear();
+            /// THIS CLEAR;
             Console.WriteLine();
             string[] toolNames = {};
             /// Retrieves all the string of tools within that type and splits them into an array
             try
             {
-                toolNames = catType[choices.CAT - 1, choices.TYPE - 1].Split('/');
+                toolNames = CatType[choices.CAT - 1][choices.TYPE - 1].Split('~');
             }
             catch { }
             choices.clear();
